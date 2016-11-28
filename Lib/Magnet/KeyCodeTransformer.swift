@@ -32,9 +32,7 @@ public extension KeyCodeTransformer {
 
         let source = TISCopyCurrentASCIICapableKeyboardLayoutInputSource().takeUnretainedValue()
         let layoutData = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)
-        let dataRef = unsafeBitCast(layoutData, to: CFData.self)
-
-        let keyLayout = unsafeBitCast(CFDataGetBytePtr(dataRef), to: UnsafePointer<CoreServices.UCKeyboardLayout>.self)
+        let dataRef = unsafeBitCast(layoutData, to: Data.self)
 
         let keyTranslateOptions = OptionBits(CoreServices.kUCKeyTranslateNoDeadKeysBit)
         var deadKeyState: UInt32 = 0
@@ -42,16 +40,18 @@ public extension KeyCodeTransformer {
         var chars = [UniChar](repeating: 0, count: maxChars)
         var length = 0
 
-        let error = CoreServices.UCKeyTranslate(keyLayout,
-                                                UInt16(keyCode),
-                                                UInt16(CoreServices.kUCKeyActionDisplay),
-                                                UInt32(modifiers),
-                                                UInt32(LMGetKbdType()),
-                                                keyTranslateOptions,
-                                                &deadKeyState,
-                                                maxChars,
-                                                &length,
-                                                &chars)
+        let error = dataRef.withUnsafeBytes { (keyLayout: UnsafePointer<UCKeyboardLayout>) in
+            CoreServices.UCKeyTranslate(keyLayout,
+                                        UInt16(keyCode),
+                                        UInt16(CoreServices.kUCKeyActionDisplay),
+                                        UInt32(modifiers),
+                                        UInt32(LMGetKbdType()),
+                                        keyTranslateOptions,
+                                        &deadKeyState,
+                                        maxChars,
+                                        &length,
+                                        &chars)
+        }
 
         if error != noErr { return "" }
 
