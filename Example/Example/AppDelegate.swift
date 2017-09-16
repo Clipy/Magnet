@@ -69,27 +69,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         HotKeyCenter.shared.unregisterAll()
     }
 
-    func tappedHotKey() {
+    @objc func tappedHotKey() {
         print("hotKey!!!!")
     }
 
-    func tappedHotKey2() {
+    @objc func tappedHotKey2() {
         print("hotKey2!!!!")
     }
 
-    func tappedDoubleCommandKey() {
+    @objc func tappedDoubleCommandKey() {
         print("command double tapped!!!")
     }
 
-    func tappedDoubleShiftKey() {
+    @objc func tappedDoubleShiftKey() {
         print("shift double tapped!!!")
     }
 
-    func tappedDoubleControlKey() {
+    @objc func tappedDoubleControlKey() {
         print("control double tapped!!!")
     }
 
-    func tappedDoubleOptionKey() {
+    @objc func tappedDoubleOptionKey() {
         print("option double tapped!!!")
     }
 }
