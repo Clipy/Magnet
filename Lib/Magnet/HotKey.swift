@@ -9,7 +9,8 @@
 import Cocoa
 import Carbon
 
-public final class HotKey: Equatable {
+@objc(HotKey)
+public final class HotKey: NSObject {
 
     // MARK: - Properties
     public let identifier: String
@@ -41,11 +42,12 @@ public final class HotKey: Equatable {
     public init(identifier: String, keyCombo: KeyCombo, target: AnyObject? = nil, action: Selector? = nil, actionQueue: ActionQueue = .main) {
         self.identifier     = identifier
         self.keyCombo       = keyCombo
+        self.actionQueue    = actionQueue
+        super.init()
         self.target         = target
         self.action         = action
-        self.actionQueue    = actionQueue
     }
-    
+
 }
 
 // MARK: - Invoke
