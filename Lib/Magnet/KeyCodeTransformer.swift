@@ -25,6 +25,18 @@ extension KeyCodeTransformer {
     }
 
     fileprivate func transformValue(_ keyCode: Int, modifiers: Int) -> String {
+        return keyEquivalent(keyCode, modifiers: modifiers).uppercased()
+    }
+
+    public func keyEquivalent(_ keyCode: Int, carbonModifiers: Int) -> String {
+        return keyEquivalent(keyCode, modifiers: carbonModifiers)
+    }
+
+    public func keyEquivalent(_ keyCode: Int, cocoaModifiers: NSEvent.ModifierFlags) -> String {
+        return keyEquivalent(keyCode, modifiers: KeyTransformer.carbonFlags(from: cocoaModifiers))
+    }
+
+    fileprivate func keyEquivalent(_ keyCode: Int, modifiers: Int) -> String {
         // Return Special KeyCode
         if let unmappedString = transformSpecialKeyCode(keyCode) {
             return unmappedString
@@ -55,7 +67,7 @@ extension KeyCodeTransformer {
 
         if error != noErr { return "" }
 
-        return NSString(characters: &chars, length: length).uppercased
+        return NSString(characters: &chars, length: length) as String
     }
 
     fileprivate func transformSpecialKeyCode(_ keyCode: Int) -> String? {
