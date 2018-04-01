@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //　⌘　Double Tap
         guard let keyCombo3 = KeyCombo(doubledCocoaModifiers: .command) else { return }
-        let hotKey3 = HotKey(identifier: "CommandDobuleTap",
+        let hotKey3 = HotKey(identifier: "CommandDoubleTap",
                          keyCombo: keyCombo3,
                          target: self,
                          action: #selector(AppDelegate.tappedDoubleCommandKey))
@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //　Shift　Double Tap
         guard let keyCombo4 = KeyCombo(doubledCocoaModifiers: .shift) else { return }
-        let hotKey4 = HotKey(identifier: "ShiftDobuleTap",
+        let hotKey4 = HotKey(identifier: "ShiftDoubleTap",
                          keyCombo: keyCombo4,
                          target: self,
                          action: #selector(AppDelegate.tappedDoubleShiftKey))
@@ -50,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //　Control　Double Tap
         guard let keyCombo5 = KeyCombo(doubledCocoaModifiers: .control) else { return }
-        let hotKey5 = HotKey(identifier: "ControlDobuleTap",
+        let hotKey5 = HotKey(identifier: "ControlDoubleTap",
                          keyCombo: keyCombo5,
                          target: self,
                          action: #selector(AppDelegate.tappedDoubleControlKey))
@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //　Option　Double Tap
         guard let keyCombo6 = KeyCombo(doubledCocoaModifiers: .option) else { return }
-        let hotKey6 = HotKey(identifier: "OptionDobuleTap",
+        let hotKey6 = HotKey(identifier: "OptionDoubleTap",
                          keyCombo: keyCombo6,
                          target: self,
                          action: #selector(AppDelegate.tappedDoubleOptionKey))
