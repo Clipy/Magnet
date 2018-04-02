@@ -215,8 +215,8 @@ private extension HotKeyCenter {
 }
 
 // MARK: - CGEventFlags
-private extension CGEventFlags {
-    func contains(_ flags: CGEventFlags) -> Bool {
+public extension CGEventFlags {
+    public func contains(_ flags: CGEventFlags) -> Bool {
         return rawValue & flags.rawValue == flags.rawValue
     }
 }
