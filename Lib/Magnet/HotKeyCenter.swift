@@ -213,10 +213,3 @@ private extension HotKeyCenter {
             .forEach { $0.invoke() }
     }
 }
-
-// MARK: - CGEventFlags
-private extension CGEventFlags {
-    func contains(_ flags: CGEventFlags) -> Bool {
-        return rawValue & flags.rawValue == flags.rawValue
-    }
-}
