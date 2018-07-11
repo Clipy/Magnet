@@ -190,9 +190,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FAEC34AD1
-    
-  C9059DF004177E2 /* Resources */ = {
+		FAEC34AD1C9059DF004177E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
