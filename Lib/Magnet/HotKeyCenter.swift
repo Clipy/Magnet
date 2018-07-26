@@ -167,14 +167,14 @@ private extension HotKeyCenter {
 
         // Only one modifier key
         let totalHash = commandTapped.hashValue + altTapped.hashValue + shiftTapped.hashValue + controlTapped.hashValue
-        if totalHash == 0 { return Unmanaged.passRetained(event) }
+        if totalHash == 0 { return Unmanaged.passUnretained(event) }
         if totalHash > 1 {
             multiModifiers = true
-            return Unmanaged.passRetained(event)
+            return Unmanaged.passUnretained(event)
         }
         if multiModifiers {
             multiModifiers = false
-            return Unmanaged.passRetained(event)
+            return Unmanaged.passUnretained(event)
         }
 
         if (tappedModifierKey.contains(.command) && commandTapped) ||
@@ -200,15 +200,15 @@ private extension HotKeyCenter {
         // Clean Flag
         let delay = 0.3 * Double(NSEC_PER_SEC)
         let time  = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: { [unowned self] in
-            self.tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: { [weak self] in
+            self?.tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
         })
 
-        return Unmanaged.passRetained(event)
+        return Unmanaged.passUnretained(event)
     }
 
     func doubleTapped(with key: Int) {
-        hotKeys.map { $0.1 }
+        hotKeys.values
             .filter { $0.keyCombo.doubledModifiers && $0.keyCombo.modifiers == key }
             .forEach { $0.invoke() }
     }
