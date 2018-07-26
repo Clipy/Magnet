@@ -63,10 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hotKey6.register()
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        HotKeyCenter.shared.unregisterAll()
-    }
-
     @objc func tappedHotKey() {
         print("hotKey!!!!")
     }

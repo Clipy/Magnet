@@ -23,6 +23,7 @@ public final class HotKeyCenter {
     // MARK: - Initialize
     init() {
         installEventHandler()
+        observeApplicationTerminate()
     }
 
 }
@@ -85,6 +86,20 @@ public extension HotKeyCenter {
 
     public func unregisterAll() {
         hotKeys.forEach { unregister(with: $1) }
+    }
+}
+
+// MARK: - Terminate
+extension HotKeyCenter {
+    private func observeApplicationTerminate() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(HotKeyCenter.applicationWillTerminate),
+                                               name: NSApplication.willTerminateNotification,
+                                               object: nil)
+    }
+
+    @objc func applicationWillTerminate() {
+        unregisterAll()
     }
 }
 
