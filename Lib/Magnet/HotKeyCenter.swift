@@ -30,8 +30,8 @@ public final class HotKeyCenter {
 // MARK: - Register & Unregister
 public extension HotKeyCenter {
     public func register(with hotKey: HotKey) -> Bool {
-        if HotKeyCenter.shared.hotKey(hotKey.identifier) != nil { return false }
-        if hotKeys.values.contains(hotKey) { unregister(with: hotKey) }
+        guard !hotKeys.keys.contains(hotKey.identifier) else { return false }
+        guard !hotKeys.values.contains(hotKey) else { return false }
 
         if !hotKey.keyCombo.doubledModifiers {
             // Normal HotKey
@@ -59,7 +59,7 @@ public extension HotKeyCenter {
     }
     
     public func unregister(with hotKey: HotKey) {
-        if !hotKeys.values.contains(hotKey) { return }
+        guard hotKeys.values.contains(hotKey) else { return }
 
         if !hotKey.keyCombo.doubledModifiers {
             // Notmal HotKey
@@ -85,13 +85,6 @@ public extension HotKeyCenter {
 
     public func unregisterAll() {
         hotKeys.forEach { unregister(with: $1) }
-    }
-}
-
-// MARK: - HotKeys
-public extension HotKeyCenter {
-    public func hotKey(_ identifier: String) -> HotKey? {
-        return hotKeys[identifier]
     }
 }
 
