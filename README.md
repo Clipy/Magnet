@@ -36,6 +36,16 @@ if let keyCombo = KeyCombo(keyCode: 11, carbonModifiers: 4352) {
 }
 ```
 
+Or you can use closures.
+```swift
+if let keyCombo = KeyCombo(keyCode: 11, carbonModifiers: 4352) {
+    let hotKey = HotKey(identifier: "CommandControlB", keyCombo: keyCombo) { hotKey in
+        // Called when ⌘ + Control + B is pressed
+    }
+    hotKey.register()
+}        
+```
+
 ### Register Double tap hotkey
 Add `⌘ double tap` hotkey.
 ```swift
