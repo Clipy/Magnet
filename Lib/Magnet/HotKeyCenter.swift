@@ -163,6 +163,7 @@ private extension HotKeyCenter {
     }
 }
 
+
 // MARK: - Double Tap Modifier Event
 private extension HotKeyCenter {
     func sendModifiersEvent(_ event: CGEvent) -> Unmanaged<CGEvent>? {
@@ -174,7 +175,7 @@ private extension HotKeyCenter {
         let altTapped = flags.contains(.maskAlternate)
 
         // Only one modifier key
-        let totalHash = commandTapped.hashValue + altTapped.hashValue + shiftTapped.hashValue + controlTapped.hashValue
+        let totalHash = commandTapped.intValue + altTapped.intValue + shiftTapped.intValue + controlTapped.intValue
         if totalHash == 0 { return Unmanaged.passUnretained(event) }
         if totalHash > 1 {
             multiModifiers = true
@@ -220,4 +221,11 @@ private extension HotKeyCenter {
             .filter { $0.keyCombo.doubledModifiers && $0.keyCombo.modifiers == key }
             .forEach { $0.invoke() }
     }
+}
+
+
+extension Bool {
+  var intValue: Int {
+    return (self as NSNumber).intValue
+  }
 }
