@@ -163,6 +163,7 @@ private extension HotKeyCenter {
     }
 }
 
+
 // MARK: - Double Tap Modifier Event
 private extension HotKeyCenter {
     func sendModifiersEvent(_ event: CGEvent) -> Unmanaged<CGEvent>? {
@@ -220,4 +221,11 @@ private extension HotKeyCenter {
             .filter { $0.keyCombo.doubledModifiers && $0.keyCombo.modifiers == key }
             .forEach { $0.invoke() }
     }
+}
+
+
+extension Bool {
+  var intValue: Int {
+    return (self as NSNumber).intValue
+  }
 }
