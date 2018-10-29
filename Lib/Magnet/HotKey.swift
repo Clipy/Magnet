@@ -15,11 +15,13 @@ public final class HotKey: NSObject {
     // MARK: - Properties
     public let identifier: String
     public let keyCombo: KeyCombo
-    public var target: AnyObject?
-    public var action: Selector?
-    public var hotKeyId: UInt32?
-    public var hotKeyRef: EventHotKeyRef?
+    public let callback: ((HotKey) -> Void)?
+    public let target: AnyObject?
+    public let action: Selector?
     public let actionQueue: ActionQueue
+
+    var hotKeyId: UInt32?
+    var hotKeyRef: EventHotKeyRef?
 
     // MARK: - Enum Value
     public enum ActionQueue {
@@ -39,13 +41,24 @@ public final class HotKey: NSObject {
     }
 
     // MARK: - Initialize
-    public init(identifier: String, keyCombo: KeyCombo, target: AnyObject? = nil, action: Selector? = nil, actionQueue: ActionQueue = .main) {
+    public init(identifier: String, keyCombo: KeyCombo, target: AnyObject, action: Selector, actionQueue: ActionQueue = .main) {
+        super.init()
         self.identifier     = identifier
         self.keyCombo       = keyCombo
-        self.actionQueue    = actionQueue
-        super.init()
+        self.callback       = nil
         self.target         = target
         self.action         = action
+        self.actionQueue    = actionQueue
+    }
+
+    public init(identifier: String, keyCombo: KeyCombo, actionQueue: ActionQueue = .main, handler: @escaping ((HotKey) -> Void)) {
+        super.init()
+        self.identifier     = identifier
+        self.keyCombo       = keyCombo
+        self.callback       = handler
+        self.target         = nil
+        self.action         = nil
+        self.actionQueue    = actionQueue
     }
 
 }
@@ -53,13 +66,18 @@ public final class HotKey: NSObject {
 // MARK: - Invoke
 public extension HotKey {
     public func invoke() {
-        if let target = target as? NSObject, let selector = action {
-            if target.responds(to: selector) {
-                actionQueue.execute { [weak self] in
-                    guard let wSelf = self else { return }
-                    target.perform(selector, with: wSelf)
-                }
+        guard let callback = self.callback else {
+            guard let target = self.target as? NSObject, let selector = self.action else { return }
+            guard target.responds(to: selector) else { return }
+            actionQueue.execute { [weak self] in
+                guard let wSelf = self else { return }
+                target.perform(selector, with: wSelf)
             }
+            return
+        }
+        actionQueue.execute { [weak self] in
+            guard let wSelf = self else { return }
+            callback(wSelf)
         }
     }
 }
@@ -70,13 +88,14 @@ public extension HotKey {
     public func register() -> Bool {
         return HotKeyCenter.shared.register(with: self)
     }
+
     public func unregister() {
         return HotKeyCenter.shared.unregister(with: self)
     }
 }
 
 // MARK: - Equatable
-public func ==(lhs: HotKey, rhs: HotKey) -> Bool {
+public func == (lhs: HotKey, rhs: HotKey) -> Bool {
     return lhs.identifier == rhs.identifier &&
             lhs.keyCombo == rhs.keyCombo &&
             lhs.hotKeyId == rhs.hotKeyId &&

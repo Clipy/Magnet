@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA15D68E21554855009D146A /* BoolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA15D68D21554855009D146A /* BoolExtensions.swift */; };
+		FA15D69021554A0E009D146A /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA15D68F21554A0E009D146A /* BoolTests.swift */; };
 		FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7145461D147F1B004A04D4 /* KeyTransformer.swift */; };
 		FAEC34B31C9059DF004177E2 /* Magnet.h in Headers */ = {isa = PBXBuildFile; fileRef = FAEC34B21C9059DF004177E2 /* Magnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAEC34BA1C9059DF004177E2 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEC34AF1C9059DF004177E2 /* Magnet.framework */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA15D68D21554855009D146A /* BoolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolExtensions.swift; sourceTree = "<group>"; };
+		FA15D68F21554A0E009D146A /* BoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolTests.swift; sourceTree = "<group>"; };
 		FA7145461D147F1B004A04D4 /* KeyTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformer.swift; sourceTree = "<group>"; };
 		FAEC34AF1C9059DF004177E2 /* Magnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Magnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC34B21C9059DF004177E2 /* Magnet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magnet.h; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */,
 				FA7145461D147F1B004A04D4 /* KeyTransformer.swift */,
 				FAFA5B701D1FD1FA003CB2DC /* KeyCodeTransformer.swift */,
+				FA15D68D21554855009D146A /* BoolExtensions.swift */,
 				FAEC34B21C9059DF004177E2 /* Magnet.h */,
 				FAEC34B41C9059DF004177E2 /* Info.plist */,
 			);
@@ -97,6 +102,7 @@
 			children = (
 				FAEC34BE1C9059DF004177E2 /* MagnetTests.swift */,
 				FAEC34C01C9059DF004177E2 /* Info.plist */,
+				FA15D68F21554A0E009D146A /* BoolTests.swift */,
 			);
 			path = MagnetTests;
 			sourceTree = SOURCE_ROOT;
@@ -158,16 +164,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Shunsuke Furubayashi";
 				TargetAttributes = {
 					FAEC34AE1C9059DF004177E2 = {
 						CreatedOnToolsVersion = 7.0.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 					};
 					FAEC34B81C9059DF004177E2 = {
 						CreatedOnToolsVersion = 7.0.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -214,6 +220,7 @@
 				FAEC34DA1C905B5A004177E2 /* KeyCombo.swift in Sources */,
 				FAEC34DE1C905B7C004177E2 /* HotKeyCenter.swift in Sources */,
 				FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */,
+				FA15D68E21554855009D146A /* BoolExtensions.swift in Sources */,
 				FAFA5B711D1FD1FA003CB2DC /* KeyCodeTransformer.swift in Sources */,
 				FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */,
 			);
@@ -224,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAEC34BF1C9059DF004177E2 /* MagnetTests.swift in Sources */,
+				FA15D69021554A0E009D146A /* BoolTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,12 +258,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -306,12 +316,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -360,8 +372,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -381,8 +393,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clipy-app.Magnet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -394,7 +406,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clipy-app.MagnetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -406,7 +419,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clipy-app.MagnetTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
