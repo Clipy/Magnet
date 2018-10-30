@@ -9,7 +9,6 @@
 import Cocoa
 import Carbon
 
-@objc(HotKey)
 public final class HotKey: NSObject {
 
     // MARK: - Properties
@@ -94,10 +93,14 @@ public extension HotKey {
     }
 }
 
-// MARK: - Equatable
-public func == (lhs: HotKey, rhs: HotKey) -> Bool {
-    return lhs.identifier == rhs.identifier &&
-            lhs.keyCombo == rhs.keyCombo &&
-            lhs.hotKeyId == rhs.hotKeyId &&
-            lhs.hotKeyRef == rhs.hotKeyRef
+// MARK: - override isEqual
+public extension HotKey {
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let hotKey = object as? HotKey else { return false }
+
+        return self.identifier == hotKey.identifier &&
+               self.keyCombo == hotKey.keyCombo &&
+               self.hotKeyId == hotKey.hotKeyId &&
+               self.hotKeyRef == hotKey.hotKeyRef
+    }
 }
