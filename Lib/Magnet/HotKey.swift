@@ -42,23 +42,23 @@ public final class HotKey: NSObject {
 
     // MARK: - Initialize
     public init(identifier: String, keyCombo: KeyCombo, target: AnyObject, action: Selector, actionQueue: ActionQueue = .main) {
-        super.init()
         self.identifier     = identifier
         self.keyCombo       = keyCombo
         self.callback       = nil
         self.target         = target
         self.action         = action
         self.actionQueue    = actionQueue
+        super.init()
     }
 
     public init(identifier: String, keyCombo: KeyCombo, actionQueue: ActionQueue = .main, handler: @escaping ((HotKey) -> Void)) {
-        super.init()
         self.identifier     = identifier
         self.keyCombo       = keyCombo
         self.callback       = handler
         self.target         = nil
         self.action         = nil
         self.actionQueue    = actionQueue
+        super.init()
     }
 
 }
