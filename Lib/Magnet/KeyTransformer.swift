@@ -64,8 +64,9 @@ public extension KeyTransformer {
         let optionSelected  = (carbonFlags & optionKey) != 0
         let controlSelected = (carbonFlags & controlKey) != 0
         let shiftSelected   = (carbonFlags & shiftKey) != 0
-        let hash = commandSelected.intValue + optionSelected.intValue + controlSelected.intValue + shiftSelected.intValue
-        return hash == 1
+        return [commandSelected, optionSelected, controlSelected, shiftSelected]
+            .filter { $0 == true }
+            .count == 1
     }
 
     public static func singleCocoaFlags(_ cocoaFlags: NSEvent.ModifierFlags) -> Bool {
