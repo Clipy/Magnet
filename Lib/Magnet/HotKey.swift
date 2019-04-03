@@ -63,7 +63,7 @@ public final class HotKey: NSObject {
 }
 
 // MARK: - Invoke
-public extension HotKey {
+extension HotKey {
     public func invoke() {
         guard let callback = self.callback else {
             guard let target = self.target as? NSObject, let selector = self.action else { return }
@@ -82,7 +82,7 @@ public extension HotKey {
 }
 
 // MARK: - Register & UnRegister
-public extension HotKey {
+extension HotKey {
     @discardableResult
     public func register() -> Bool {
         return HotKeyCenter.shared.register(with: self)
@@ -94,7 +94,7 @@ public extension HotKey {
 }
 
 // MARK: - override isEqual
-public extension HotKey {
+extension HotKey {
     public override func isEqual(_ object: Any?) -> Bool {
         guard let hotKey = object as? HotKey else { return false }
 

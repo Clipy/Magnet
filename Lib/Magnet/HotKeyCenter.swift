@@ -29,7 +29,7 @@ public final class HotKeyCenter {
 }
 
 // MARK: - Register & Unregister
-public extension HotKeyCenter {
+extension HotKeyCenter {
     public func register(with hotKey: HotKey) -> Bool {
         guard !hotKeys.keys.contains(hotKey.identifier) else { return false }
         guard !hotKeys.values.contains(hotKey) else { return false }

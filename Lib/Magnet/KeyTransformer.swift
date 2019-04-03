@@ -12,7 +12,7 @@ import Carbon
 public final class KeyTransformer {}
 
 // MARK: - Cocoa & Carbon
-public extension KeyTransformer {
+extension KeyTransformer {
     public static func cocoaFlags(from carbonFlags: Int) -> NSEvent.ModifierFlags {
         var cocoaFlags: NSEvent.ModifierFlags = NSEvent.ModifierFlags(rawValue: 0)
 
@@ -80,7 +80,7 @@ public extension KeyTransformer {
 }
 
 // MARK: - Function
-public extension KeyTransformer {
+extension KeyTransformer {
     public static func containsFunctionKey(_ keyCode: Int) -> Bool {
         switch keyCode {
         case kVK_F1: fallthrough
@@ -111,7 +111,7 @@ public extension KeyTransformer {
 }
 
 // MARK: - Modifiers
-public extension KeyTransformer {
+extension KeyTransformer {
     public static func modifiersToString(_ carbonModifiers: Int) -> [String] {
         var strings = [String]()
 

@@ -15,7 +15,7 @@ open class KeyCodeTransformer {
 }
 
 // MARK: - Transform
-public extension KeyCodeTransformer {
+extension KeyCodeTransformer {
     public func transformValue(_ keyCode: Int, carbonModifiers: Int) -> String {
         return transformValue(keyCode, modifiers: carbonModifiers)
     }
