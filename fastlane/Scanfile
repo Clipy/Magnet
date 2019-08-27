@@ -1,0 +1,4 @@
+workspace("Magnet.xcworkspace")
+scheme("Magnet")
+clean(true)
+skip_build(true)
