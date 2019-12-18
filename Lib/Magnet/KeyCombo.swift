@@ -61,6 +61,13 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         self.doubledModifiers = true
     }
 
+    public init?(keyCode: Int) {
+        if keyCode < 0 { return nil }
+        self.modifiers = 0
+        self.keyCode = keyCode
+        self.doubledModifiers = false
+    }
+
     public func copy(with zone: NSZone?) -> Any {
         if doubledModifiers {
             return KeyCombo(doubledCarbonModifiers: modifiers)!
