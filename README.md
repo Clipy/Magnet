@@ -82,7 +82,7 @@ HotKeyCenter.shared.unregisterAll()
 or
 
 ```swift
-HotKeyCenter.shared.unregister(with: "identifier")
+HotKeyCenter.shared.unregisterHotKey(with: "identifier")
 ```
 
 or
