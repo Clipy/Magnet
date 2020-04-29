@@ -18,7 +18,6 @@
 		FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34D71C905B4D004177E2 /* HotKey.swift */; };
 		FAEC34DA1C905B5A004177E2 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34D91C905B5A004177E2 /* KeyCombo.swift */; };
 		FAEC34DE1C905B7C004177E2 /* HotKeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */; };
-		FAFA5B711D1FD1FA003CB2DC /* KeyCodeTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA5B701D1FD1FA003CB2DC /* KeyCodeTransformer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +72,6 @@
 		FAEC34D71C905B4D004177E2 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		FAEC34D91C905B5A004177E2 /* KeyCombo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCombo.swift; sourceTree = "<group>"; };
 		FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKeyCenter.swift; sourceTree = "<group>"; };
-		FAFA5B701D1FD1FA003CB2DC /* KeyCodeTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeTransformer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +137,6 @@
 				FAEC34D91C905B5A004177E2 /* KeyCombo.swift */,
 				FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */,
 				FA7145461D147F1B004A04D4 /* KeyTransformer.swift */,
-				FAFA5B701D1FD1FA003CB2DC /* KeyCodeTransformer.swift */,
 				FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */,
 				FAEC34B21C9059DF004177E2 /* Magnet.h */,
 				FAEC34B41C9059DF004177E2 /* Info.plist */,
@@ -296,7 +293,6 @@
 				FA3AA2142315A51F007EAA1F /* CollectionExtension.swift in Sources */,
 				FAEC34DE1C905B7C004177E2 /* HotKeyCenter.swift in Sources */,
 				FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */,
-				FAFA5B711D1FD1FA003CB2DC /* KeyCodeTransformer.swift in Sources */,
 				FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

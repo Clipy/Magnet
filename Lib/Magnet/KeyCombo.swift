@@ -10,6 +10,7 @@
 
 import Cocoa
 import Carbon
+import Sauce
 
 public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
@@ -18,8 +19,8 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     public let modifiers: Int
     public let doubledModifiers: Bool
     public var characters: String {
-        if doubledModifiers { return "" }
-        return KeyCodeTransformer.shared.transformValue(keyCode, carbonModifiers: modifiers)
+        guard !doubledModifiers else { return "" }
+        return Sauce.shared.character(by: keyCode, carbonModifiers: modifiers) ?? ""
     }
 
     // MARK: - Initialize
