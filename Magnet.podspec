@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Lib/Magnet/*.swift'
   s.swift_version = '5.0'
   s.frameworks   = 'Carbon', 'Cocoa'
-  s.dependency 'Sauce', '~> 2.0'
+  s.dependency 'Sauce', '~> 2.0.1'
 end
