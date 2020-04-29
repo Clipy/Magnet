@@ -1,0 +1,26 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Xcode select
+      run: sudo xcode-select -s /Applications/Xcode_11.4.app
+
+    - name: Build and Test
+      run: |
+        set -o pipefail
+        xcodebuild build-for-testing test-without-building \
+          -workspace "$PROJECT" \
+          -scheme "$SCHEME" \
+          -sdk "$SDK" \
+          -destination "$DESTINATION" \
+          -configuration Debug \
+          ENABLE_TESTABILITY=YES | xcpretty -c;
+      env:
+        PROJECT: Magnet.xcworkspace
+        SCHEME: Magnet
+        SDK: macosx
+        DESTINATION: arch=x86_64

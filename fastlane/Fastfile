@@ -1,4 +1,0 @@
-default_platform(:mac)
-
-platform :mac do
-end
