@@ -63,17 +63,17 @@ public extension KeyTransformer {
 
     static func singleCarbonFlags(_ carbonFlags: Int) -> Bool {
         let commandSelected = (carbonFlags & cmdKey) != 0
-        let optionSelected  = (carbonFlags & optionKey) != 0
+        let optionSelected = (carbonFlags & optionKey) != 0
         let controlSelected = (carbonFlags & controlKey) != 0
-        let shiftSelected   = (carbonFlags & shiftKey) != 0
+        let shiftSelected = (carbonFlags & shiftKey) != 0
         return [commandSelected, optionSelected, controlSelected, shiftSelected].trueCount == 1
     }
 
     static func singleCocoaFlags(_ cocoaFlags: NSEvent.ModifierFlags) -> Bool {
         let commandSelected = cocoaFlags.contains(.command)
-        let optionSelected  = cocoaFlags.contains(.option)
+        let optionSelected = cocoaFlags.contains(.option)
         let controlSelected = cocoaFlags.contains(.control)
-        let shiftSelected   = cocoaFlags.contains(.shift)
+        let shiftSelected = cocoaFlags.contains(.shift)
         return [commandSelected, optionSelected, controlSelected, shiftSelected].trueCount == 1
     }
 }
@@ -82,26 +82,26 @@ public extension KeyTransformer {
 public extension KeyTransformer {
     static func containsFunctionKey(_ keyCode: Int) -> Bool {
         switch keyCode {
-        case kVK_F1: fallthrough
-        case kVK_F2: fallthrough
-        case kVK_F3: fallthrough
-        case kVK_F4: fallthrough
-        case kVK_F5: fallthrough
-        case kVK_F6: fallthrough
-        case kVK_F7: fallthrough
-        case kVK_F8: fallthrough
-        case kVK_F9: fallthrough
-        case kVK_F10: fallthrough
-        case kVK_F11: fallthrough
-        case kVK_F12: fallthrough
-        case kVK_F13: fallthrough
-        case kVK_F14: fallthrough
-        case kVK_F15: fallthrough
-        case kVK_F16: fallthrough
-        case kVK_F17: fallthrough
-        case kVK_F18: fallthrough
-        case kVK_F19: fallthrough
-        case kVK_F20:
+        case kVK_F1,
+             kVK_F2,
+             kVK_F3,
+             kVK_F4,
+             kVK_F5,
+             kVK_F6,
+             kVK_F7,
+             kVK_F8,
+             kVK_F9,
+             kVK_F10,
+             kVK_F11,
+             kVK_F12,
+             kVK_F13,
+             kVK_F14,
+             kVK_F15,
+             kVK_F16,
+             kVK_F17,
+             kVK_F18,
+             kVK_F19,
+             kVK_F20:
             return true
         default:
             return false

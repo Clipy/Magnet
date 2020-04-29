@@ -31,15 +31,15 @@ public final class HotKeyCenter {
 }
 
 // MARK: - Register & Unregister
-extension HotKeyCenter {
-    public func register(with hotKey: HotKey) -> Bool {
+public extension HotKeyCenter {
+    func register(with hotKey: HotKey) -> Bool {
         guard !hotKeys.keys.contains(hotKey.identifier) else { return false }
         guard !hotKeys.values.contains(hotKey) else { return false }
 
         if !hotKey.keyCombo.doubledModifiers {
             // Normal HotKey
             let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
-            var carbonHotKey: EventHotKeyRef? = nil
+            var carbonHotKey: EventHotKeyRef?
             let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.keyCode),
                                             UInt32(hotKey.keyCombo.modifiers),
                                             hotKeyId,
@@ -62,8 +62,8 @@ extension HotKeyCenter {
 
         return true
     }
-    
-    public func unregister(with hotKey: HotKey) {
+
+    func unregister(with hotKey: HotKey) {
         guard hotKeys.values.contains(hotKey) else { return }
 
         if !hotKey.keyCombo.doubledModifiers {
@@ -83,12 +83,12 @@ extension HotKeyCenter {
             .forEach { hotKeyMap.removeValue(forKey: $0) }
     }
 
-    public func unregisterHotKey(with identifier: String) {
+    func unregisterHotKey(with identifier: String) {
         guard let hotKey = hotKeys[identifier] else { return }
         unregister(with: hotKey)
     }
 
-    public func unregisterAll() {
+    func unregisterAll() {
         hotKeys.forEach { unregister(with: $1) }
     }
 }
@@ -116,18 +116,18 @@ private extension HotKeyCenter {
         var pressedEventType = EventTypeSpec()
         pressedEventType.eventClass = OSType(kEventClassKeyboard)
         pressedEventType.eventKind = OSType(kEventHotKeyPressed)
-        InstallEventHandler(GetEventDispatcherTarget(), { (_, inEvent, _) -> OSStatus in
+        InstallEventHandler(GetEventDispatcherTarget(), { _, inEvent, _ -> OSStatus in
             return HotKeyCenter.shared.sendCarbonEvent(inEvent!)
         }, 1, &pressedEventType, nil, nil)
 
         // Press Modifiers Event
         let mask = CGEventMask((1 << CGEventType.flagsChanged.rawValue))
         let event = CGEvent.tapCreate(tap: .cghidEventTap,
-                                     place: .headInsertEventTap,
-                                     options: .listenOnly,
-                                     eventsOfInterest: mask,
-                                     callback: { (_, _, event, _) in return HotKeyCenter.shared.sendModifiersEvent(event) },
-                                     userInfo: nil)
+                                      place: .headInsertEventTap,
+                                      options: .listenOnly,
+                                      eventsOfInterest: mask,
+                                      callback: { _, _, event, _ in return HotKeyCenter.shared.sendModifiersEvent(event) },
+                                      userInfo: nil)
         if event == nil { return }
         let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, event!, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), source, CFRunLoopMode.commonModes)
@@ -213,7 +213,7 @@ private extension HotKeyCenter {
 
         // Clean Flag
         let delay = 0.3 * Double(NSEC_PER_SEC)
-        let time  = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time, execute: { [weak self] in
             self?.tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
         })
