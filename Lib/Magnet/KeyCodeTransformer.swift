@@ -8,7 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
-import Foundation
+import Cocoa
 import Carbon
 
 open class KeyCodeTransformer {
