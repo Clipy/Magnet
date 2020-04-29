@@ -11,11 +11,6 @@ Customize global hotkeys in macOS. Supports usual hotkey and double tap hotkey l
 
 Also supports sandbox application.
 
-## Requirements
-- macOS 10.9+
-- Xcode 9.4+
-- Swift 4.1+
-
 ## Usage
 ### CocoaPods
 ```
@@ -93,6 +88,16 @@ or
 let hotKey = HotKey(identifier: "identifier", keyCombo: KeyCombo, target: self, action: #selector())
 hotKey.unregister() // or HotKeyCenter.shared.unregister(with: hotKey)
 ```
+
+## Dependencies
+- [Magnet](https://github.com/Clipy/Sauce)
+
+## How to Build
+1. Move to the project root directory
+2. Install dependency library with `carthage` or `git submodule`
+3. `carthage checkout --use-submodules` or `git submodule init && git submodule update`
+4. Open `Magnet.xcworkspace` on Xcode.
+5. build.
 
 ### Contributing
 1. Fork it ( https://github.com/Clipy/Magnet/fork )

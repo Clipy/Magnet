@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091D85D22459554600930473 /* Sauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; };
+		091D85D32459554600930473 /* Sauce.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA3AA2142315A51F007EAA1F /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */; };
 		FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */; };
 		FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7145461D147F1B004A04D4 /* KeyTransformer.swift */; };
@@ -20,6 +22,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		091D85CE2459553A00930473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 091D85C92459553A00930473 /* Sauce.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAA41320210E2C730097D522;
+			remoteInfo = Sauce;
+		};
+		091D85D02459553A00930473 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 091D85C92459553A00930473 /* Sauce.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAA41329210E2C730097D522;
+			remoteInfo = SauceTests;
+		};
 		FAEC34BB1C9059DF004177E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAEC34A61C9059DF004177E2 /* Project object */;
@@ -29,7 +45,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		091D85D42459554600930473 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				091D85D32459554600930473 /* Sauce.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		091D85C92459553A00930473 /* Sauce.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sauce.xcodeproj; path = ../Carthage/Checkouts/Sauce/Lib/Sauce.xcodeproj; sourceTree = "<group>"; };
 		FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
 		FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensionTests.swift; sourceTree = "<group>"; };
 		FA7145461D147F1B004A04D4 /* KeyTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformer.swift; sourceTree = "<group>"; };
@@ -50,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				091D85D22459554600930473 /* Sauce.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,12 +96,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		091D85C82459552300930473 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				091D85C92459553A00930473 /* Sauce.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		091D85CA2459553A00930473 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				091D85CF2459553A00930473 /* Sauce.framework */,
+				091D85D12459553A00930473 /* SauceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FAEC34A51C9059DF004177E2 = {
 			isa = PBXGroup;
 			children = (
 				FAEC34B11C9059DF004177E2 /* Magnet */,
 				FAEC34BD1C9059DF004177E2 /* MagnetTests */,
 				FAEC34B01C9059DF004177E2 /* Products */,
+				091D85C82459552300930473 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +179,7 @@
 				FAEC34AB1C9059DF004177E2 /* Frameworks */,
 				FAEC34AC1C9059DF004177E2 /* Headers */,
 				FAEC34AD1C9059DF004177E2 /* Resources */,
+				091D85D42459554600930473 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,6 +239,12 @@
 			mainGroup = FAEC34A51C9059DF004177E2;
 			productRefGroup = FAEC34B01C9059DF004177E2 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 091D85CA2459553A00930473 /* Products */;
+					ProjectRef = 091D85C92459553A00930473 /* Sauce.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FAEC34AE1C9059DF004177E2 /* Magnet */,
@@ -195,6 +252,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		091D85CF2459553A00930473 /* Sauce.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Sauce.framework;
+			remoteRef = 091D85CE2459553A00930473 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		091D85D12459553A00930473 /* SauceTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SauceTests.xctest;
+			remoteRef = 091D85D02459553A00930473 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FAEC34AD1C9059DF004177E2 /* Resources */ = {
@@ -294,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -347,7 +421,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
