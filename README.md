@@ -90,7 +90,7 @@ hotKey.unregister() // or HotKeyCenter.shared.unregister(with: hotKey)
 ```
 
 ## Dependencies
-- [Magnet](https://github.com/Clipy/Sauce)
+- [Sauce](https://github.com/Clipy/Sauce)
 
 ## How to Build
 1. Move to the project root directory
