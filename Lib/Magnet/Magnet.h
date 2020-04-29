@@ -1,9 +1,11 @@
 //
 //  Magnet.h
-//  Magnet
 //
-//  Created by 古林俊佑 on 2016/03/09.
-//  Copyright © 2016年 Shunsuke Furubayashi. All rights reserved.
+//  Magnet
+//  GitHub: https://github.com/clipy
+//  HP: https://clipy-app.com
+//
+//  Copyright © 2015-2020 Clipy Project.
 //
 
 #import <Cocoa/Cocoa.h>
