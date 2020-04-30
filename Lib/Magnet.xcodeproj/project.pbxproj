@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		091D85D22459554600930473 /* Sauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; };
 		091D85D32459554600930473 /* Sauce.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FA3AA2142315A51F007EAA1F /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */; };
+		091D85EA245A917500930473 /* NSEventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E6245A917500930473 /* NSEventExtension.swift */; };
+		091D85EB245A917500930473 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E7245A917500930473 /* IntExtension.swift */; };
+		091D85EC245A917500930473 /* KeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E8245A917500930473 /* KeyExtension.swift */; };
+		091D85ED245A917500930473 /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E9245A917500930473 /* CollectionExtension.swift */; };
 		FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */; };
 		FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7145461D147F1B004A04D4 /* KeyTransformer.swift */; };
 		FAEC34B31C9059DF004177E2 /* Magnet.h in Headers */ = {isa = PBXBuildFile; fileRef = FAEC34B21C9059DF004177E2 /* Magnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,7 +63,10 @@
 
 /* Begin PBXFileReference section */
 		091D85C92459553A00930473 /* Sauce.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sauce.xcodeproj; path = ../Carthage/Checkouts/Sauce/Lib/Sauce.xcodeproj; sourceTree = "<group>"; };
-		FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
+		091D85E6245A917500930473 /* NSEventExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventExtension.swift; sourceTree = "<group>"; };
+		091D85E7245A917500930473 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		091D85E8245A917500930473 /* KeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyExtension.swift; sourceTree = "<group>"; };
+		091D85E9245A917500930473 /* CollectionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
 		FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensionTests.swift; sourceTree = "<group>"; };
 		FA7145461D147F1B004A04D4 /* KeyTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTransformer.swift; sourceTree = "<group>"; };
 		FAEC34AF1C9059DF004177E2 /* Magnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Magnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +117,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		091D85E5245A915A00930473 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				091D85E9245A917500930473 /* CollectionExtension.swift */,
+				091D85E7245A917500930473 /* IntExtension.swift */,
+				091D85E8245A917500930473 /* KeyExtension.swift */,
+				091D85E6245A917500930473 /* NSEventExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FAEC34A51C9059DF004177E2 = {
 			isa = PBXGroup;
 			children = (
@@ -133,11 +150,11 @@
 		FAEC34B11C9059DF004177E2 /* Magnet */ = {
 			isa = PBXGroup;
 			children = (
+				091D85E5245A915A00930473 /* Extensions */,
 				FAEC34D71C905B4D004177E2 /* HotKey.swift */,
 				FAEC34D91C905B5A004177E2 /* KeyCombo.swift */,
 				FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */,
 				FA7145461D147F1B004A04D4 /* KeyTransformer.swift */,
-				FA3AA2132315A51F007EAA1F /* CollectionExtension.swift */,
 				FAEC34B21C9059DF004177E2 /* Magnet.h */,
 				FAEC34B41C9059DF004177E2 /* Info.plist */,
 			);
@@ -290,10 +307,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAEC34DA1C905B5A004177E2 /* KeyCombo.swift in Sources */,
-				FA3AA2142315A51F007EAA1F /* CollectionExtension.swift in Sources */,
 				FAEC34DE1C905B7C004177E2 /* HotKeyCenter.swift in Sources */,
+				091D85EA245A917500930473 /* NSEventExtension.swift in Sources */,
 				FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */,
+				091D85EC245A917500930473 /* KeyExtension.swift in Sources */,
+				091D85ED245A917500930473 /* CollectionExtension.swift in Sources */,
 				FA7145471D147F1B004A04D4 /* KeyTransformer.swift in Sources */,
+				091D85EB245A917500930473 /* IntExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

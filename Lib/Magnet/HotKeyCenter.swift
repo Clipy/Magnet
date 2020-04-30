@@ -40,7 +40,7 @@ public extension HotKeyCenter {
             // Normal HotKey
             let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
             var carbonHotKey: EventHotKeyRef?
-            let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.keyCode),
+            let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.QWERTYKeyCode),
                                             UInt32(hotKey.keyCombo.modifiers),
                                             hotKeyId,
                                             GetEventDispatcherTarget(),
