@@ -11,7 +11,7 @@
 import Cocoa
 import Carbon
 
-extension NSEvent.ModifierFlags {
+public extension NSEvent.ModifierFlags {
     var containsSupportModifiers: Bool {
         return contains(.command) || contains(.option) || contains(.control) || contains(.shift)
     }

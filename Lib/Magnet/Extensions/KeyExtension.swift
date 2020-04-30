@@ -11,7 +11,7 @@
 import Foundation
 import Sauce
 
-extension Key {
+public extension Key {
     var isFunctionKey: Bool {
         switch self {
         case .f1,

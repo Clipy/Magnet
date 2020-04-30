@@ -10,7 +10,7 @@
 
 import Foundation
 
-extension Collection where Element == Bool {
+public extension Collection where Element == Bool {
     var trueCount: Int {
         return filter { $0 }.count
     }
