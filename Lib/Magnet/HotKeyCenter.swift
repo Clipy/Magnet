@@ -195,7 +195,7 @@ private extension HotKeyCenter {
             (tappedModifierKey.contains(.shift) && shiftTapped)    ||
             (tappedModifierKey.contains(.control) && controlTapped) ||
             (tappedModifierKey.contains(.option) && altTapped) {
-            doubleTapped(with: KeyTransformer.carbonFlags(from: tappedModifierKey))
+            doubleTapped(with: tappedModifierKey.carbonModifiers())
             tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
         } else {
             if commandTapped {
