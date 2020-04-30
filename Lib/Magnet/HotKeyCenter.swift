@@ -20,13 +20,14 @@ public final class HotKeyCenter {
     private var hotKeyCount: UInt32 = 0
     private var tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
     private var multiModifiers = false
-    private var isInstalledFlagsChangedEvent = false
+    private var lastHandledEventTimeStamp: TimeInterval?
     private let notificationCenter: NotificationCenter
 
     // MARK: - Initialize
     init(notificationCenter: NotificationCenter = .default) {
         self.notificationCenter = notificationCenter
         installHotKeyPressedEventHandler()
+        installModifierChangedEventHandlerIfNeeded()
         observeApplicationTerminate()
     }
 
@@ -44,11 +45,7 @@ public extension HotKeyCenter {
         guard !hotKeys.values.contains(hotKey) else { return false }
 
         hotKeys[hotKey.identifier] = hotKey
-        guard !hotKey.keyCombo.doubledModifiers else {
-            // In the case of a double-tap shortcut, start independent monitoring
-            installModifierEventHandlerIfNeeded()
-            return true
-        }
+        guard !hotKey.keyCombo.doubledModifiers else { return true }
         // Normal macOS shortcut
         /*
          *  Discussion:
@@ -127,23 +124,6 @@ private extension HotKeyCenter {
         }, 1, &pressedEventType, nil, nil)
     }
 
-    func installModifierEventHandlerIfNeeded() {
-        guard !isInstalledFlagsChangedEvent else { return }
-        // Press Modifiers Event
-        let mask = CGEventMask((1 << CGEventType.flagsChanged.rawValue))
-        let event = CGEvent.tapCreate(tap: .cghidEventTap,
-                                      place: .headInsertEventTap,
-                                      options: .listenOnly,
-                                      eventsOfInterest: mask,
-                                      callback: { _, _, event, _ in return HotKeyCenter.shared.sendModifiersEvent(event) },
-                                      userInfo: nil)
-        guard let modifiersEvent = event else { return }
-        isInstalledFlagsChangedEvent = true
-        let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, modifiersEvent, 0)
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), source, CFRunLoopMode.commonModes)
-        CGEvent.tapEnable(tap: modifiersEvent, enable: true)
-    }
-
     func sendCarbonEvent(_ event: EventRef) -> OSStatus {
         assert(Int(GetEventClass(event)) == kEventClassKeyboard, "Unknown event class")
 
@@ -178,30 +158,39 @@ private extension HotKeyCenter {
 
 // MARK: - Double Tap Modifier Event
 private extension HotKeyCenter {
-    func sendModifiersEvent(_ event: CGEvent) -> Unmanaged<CGEvent>? {
-        let flags = event.flags
+    func installModifierChangedEventHandlerIfNeeded() {
+        NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+            self?.sendModifiersChangeEvent(event)
+        }
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event -> NSEvent? in
+            self?.sendModifiersChangeEvent(event)
+            return event
+        }
+    }
 
-        let commandTapped = flags.contains(.maskCommand)
-        let shiftTapped = flags.contains(.maskShift)
-        let controlTapped = flags.contains(.maskControl)
-        let altTapped = flags.contains(.maskAlternate)
+    func sendModifiersChangeEvent(_ event: NSEvent) {
+        guard lastHandledEventTimeStamp != event.timestamp else { return }
+        lastHandledEventTimeStamp = event.timestamp
 
-        // Only one modifier key
-        let modifiersCount = [commandTapped, altTapped, shiftTapped, controlTapped].trueCount
-        if modifiersCount == 0 { return Unmanaged.passUnretained(event) }
-        if modifiersCount > 1 {
+        let modifierFlags = event.modifierFlags
+        let commandTapped = modifierFlags.contains(.command)
+        let shiftTapped = modifierFlags.contains(.shift)
+        let controlTapped = modifierFlags.contains(.control)
+        let optionTapped = modifierFlags.contains(.option)
+        let modifiersCount = [commandTapped, optionTapped, shiftTapped, controlTapped].trueCount
+        guard modifiersCount != 0 else { return }
+        guard modifiersCount == 1 else {
             multiModifiers = true
-            return Unmanaged.passUnretained(event)
+            return
         }
-        if multiModifiers {
+        guard !multiModifiers else {
             multiModifiers = false
-            return Unmanaged.passUnretained(event)
+            return
         }
-
         if (tappedModifierKey.contains(.command) && commandTapped) ||
             (tappedModifierKey.contains(.shift) && shiftTapped)    ||
             (tappedModifierKey.contains(.control) && controlTapped) ||
-            (tappedModifierKey.contains(.option) && altTapped) {
+            (tappedModifierKey.contains(.option) && optionTapped) {
             doubleTapped(with: tappedModifierKey.carbonModifiers())
             tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
         } else {
@@ -211,21 +200,16 @@ private extension HotKeyCenter {
                 tappedModifierKey = .shift
             } else if controlTapped {
                 tappedModifierKey = .control
-            } else if altTapped {
+            } else if optionTapped {
                 tappedModifierKey = .option
             } else {
                 tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
             }
         }
-
         // Clean Flag
-        let delay = 0.3 * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
             self?.tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
         })
-
-        return Unmanaged.passUnretained(event)
     }
 
     func doubleTapped(with key: Int) {
