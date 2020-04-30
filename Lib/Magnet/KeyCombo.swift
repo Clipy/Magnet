@@ -24,6 +24,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
     public var currentKeyCode: CGKeyCode {
+        guard !doubledModifiers else { return 0 }
         return Sauce.shared.keyCode(by: key)
     }
 
