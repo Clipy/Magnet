@@ -49,7 +49,19 @@ public extension HotKeyCenter {
             installModifierEventHandlerIfNeeded()
             return true
         }
-        // Normal OS shorcut
+        // Normal macOS shortcut
+        /*
+         *  Discussion:
+         *    When registering a hotkey, a KeyCode that conforms to the
+         *    keyboard layout at the time of registration is registered.
+         *    To register a `v` on the QWERTY keyboard, `9` is registered,
+         *    and to register a `v` on the Dvorak keyboard, `47` is registered.
+         *    Therefore, if you change the keyboard layout after registering
+         *    a hot key, the hot key is not assigned to the correct key.
+         *    To solve this problem, you need to re-register the hotkeys
+         *    when you change the layout, but it's not supported by the
+         *    Apple Genuine app either, so it's not supported now.
+         */
         let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
         var carbonHotKey: EventHotKeyRef?
         let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.currentKeyCode),
