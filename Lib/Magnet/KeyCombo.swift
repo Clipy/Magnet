@@ -23,6 +23,11 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return "" }
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
+    public var currentKeyCode: CGKeyCode {
+        return Sauce.shared.keyCode(by: key)
+    }
+
+    private let key: Key
 
     // MARK: - Initialize
     public convenience init?(QWERTYKeyCode: Int, carbonModifiers: Int) {
@@ -48,6 +53,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         self.modifiers = filterdCocoaModifiers.carbonModifiers()
         self.QWERTYKeyCode = Int(key.QWERTYKeyCode)
         self.doubledModifiers = false
+        self.key = key
     }
 
     public convenience init?(doubledCarbonModifiers modifiers: Int) {
@@ -59,8 +65,10 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         self.modifiers = modifiers.carbonModifiers()
         self.QWERTYKeyCode = 0
         self.doubledModifiers = true
+        self.key = .a
     }
 
+    // MARK: - NSCoping
     public func copy(with zone: NSZone?) -> Any {
         if doubledModifiers {
             return KeyCombo(doubledCarbonModifiers: modifiers) as Any
@@ -69,6 +77,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         }
     }
 
+    // MARK: - NSCoding
     public init?(coder aDecoder: NSCoder) {
         // Changed KeyCode to QWERTYKeyCode from v3.0.0
         let containsKeyCode = aDecoder.containsValue(forKey: "keyCode")
@@ -77,14 +86,48 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         } else {
             self.QWERTYKeyCode = aDecoder.decodeInteger(forKey: "QWERTYKeyCode")
         }
+        guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return nil }
         self.modifiers = aDecoder.decodeInteger(forKey: "modifiers")
         self.doubledModifiers = aDecoder.decodeBool(forKey: "doubledModifiers")
+        self.key = key
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(QWERTYKeyCode, forKey: "QWERTYKeyCode")
         aCoder.encode(modifiers, forKey: "modifiers")
         aCoder.encode(doubledModifiers, forKey: "doubledModifiers")
+    }
+
+    // MARK: - Codable
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if container.contains(.keyCode) {
+            // Changed KeyCode to QWERTYKeyCode from v3.0.0
+            self.QWERTYKeyCode = try container.decode(Int.self, forKey: .keyCode)
+        } else {
+            self.QWERTYKeyCode = try container.decode(Int.self, forKey: .QWERTYKeyCode)
+        }
+        guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else {
+            throw KeyCombo.InitializeError()
+        }
+        self.modifiers = try container.decode(Int.self, forKey: .modifiers)
+        self.doubledModifiers = try container.decode(Bool.self, forKey: .doubledModifiers)
+        self.key = key
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(QWERTYKeyCode, forKey: .QWERTYKeyCode)
+        try container.encode(modifiers, forKey: .modifiers)
+        try container.encode(doubledModifiers, forKey: .doubledModifiers)
+    }
+
+    // MARK: - Coding Keys
+    private enum CodingKeys: String, CodingKey {
+        case keyCode
+        case QWERTYKeyCode
+        case modifiers
+        case doubledModifiers
     }
 
     // MARK: - Equatable
@@ -95,4 +138,9 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
                 doubledModifiers == keyCombo.doubledModifiers
     }
 
+}
+
+// MARK: - Error
+public extension KeyCombo {
+    struct InitializeError: Error {}
 }
