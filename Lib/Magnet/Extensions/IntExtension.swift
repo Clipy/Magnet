@@ -11,7 +11,7 @@
 import Cocoa
 import Carbon
 
-extension Int {
+public extension Int {
     func convertSupportCococaModifiers() -> NSEvent.ModifierFlags {
         var cocoaFlags: NSEvent.ModifierFlags = NSEvent.ModifierFlags(rawValue: 0)
         if (self & cmdKey) != 0 {
