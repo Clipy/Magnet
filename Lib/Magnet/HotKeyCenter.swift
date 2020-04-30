@@ -27,7 +27,7 @@ public final class HotKeyCenter {
     init(notificationCenter: NotificationCenter = .default) {
         self.notificationCenter = notificationCenter
         installHotKeyPressedEventHandler()
-        installModifierChangedEventHandlerIfNeeded()
+        installModifiersChangedEventHandlerIfNeeded()
         observeApplicationTerminate()
     }
 
@@ -158,7 +158,7 @@ private extension HotKeyCenter {
 
 // MARK: - Double Tap Modifier Event
 private extension HotKeyCenter {
-    func installModifierChangedEventHandlerIfNeeded() {
+    func installModifiersChangedEventHandlerIfNeeded() {
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
             self?.sendModifiersChangeEvent(event)
         }
