@@ -13,7 +13,7 @@ import Carbon
 
 public extension NSEvent.ModifierFlags {
     var containsSupportModifiers: Bool {
-        return contains(.command) || contains(.option) || contains(.control) || contains(.shift)
+        return contains(.command) || contains(.option) || contains(.control) || contains(.shift) || contains(.function)
     }
     var isSingleFlags: Bool {
         let commandSelected = contains(.command)
@@ -40,7 +40,7 @@ public extension NSEvent.ModifierFlags {
         return filterdModifierFlags
     }
 
-    func carbonModifiers() -> Int {
+    func carbonModifiers(isSupportFunctionKey: Bool = false) -> Int {
         var carbonModifiers: Int = 0
         if contains(.command) {
             carbonModifiers |= cmdKey
@@ -53,6 +53,9 @@ public extension NSEvent.ModifierFlags {
         }
         if contains(.shift) {
             carbonModifiers |= shiftKey
+        }
+        if contains(.function) && isSupportFunctionKey {
+            carbonModifiers |= Int(NSEvent.ModifierFlags.function.rawValue)
         }
         return carbonModifiers
     }

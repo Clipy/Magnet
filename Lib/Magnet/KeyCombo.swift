@@ -46,12 +46,12 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
     public init?(key: Key, cocoaModifiers: NSEvent.ModifierFlags) {
         var filterdCocoaModifiers = cocoaModifiers.filterUnsupportModifiers()
-        guard filterdCocoaModifiers.containsSupportModifiers else { return nil }
         // In the case of the function key, will need to add the modifier manually
         if key.isFunctionKey {
             filterdCocoaModifiers.insert(.function)
         }
-        self.modifiers = filterdCocoaModifiers.carbonModifiers()
+        guard filterdCocoaModifiers.containsSupportModifiers else { return nil }
+        self.modifiers = filterdCocoaModifiers.carbonModifiers(isSupportFunctionKey: true)
         self.QWERTYKeyCode = Int(key.QWERTYKeyCode)
         self.doubledModifiers = false
         self.key = key
