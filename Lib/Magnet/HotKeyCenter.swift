@@ -40,7 +40,7 @@ public extension HotKeyCenter {
             // Normal HotKey
             let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
             var carbonHotKey: EventHotKeyRef?
-            let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.QWERTYKeyCode),
+            let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.currentKeyCode),
                                             UInt32(hotKey.keyCombo.modifiers),
                                             hotKeyId,
                                             GetEventDispatcherTarget(),
@@ -67,7 +67,7 @@ public extension HotKeyCenter {
         guard hotKeys.values.contains(hotKey) else { return }
 
         if !hotKey.keyCombo.doubledModifiers {
-            // Notmal HotKey
+            // Normal HotKey
             guard let carbonHotKey = hotKey.hotKeyRef else { return }
             UnregisterEventHotKey(carbonHotKey)
         }
