@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		090077D4245D449F0099B20A /* KeyComboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090077D3245D449F0099B20A /* KeyComboTests.swift */; };
 		091D85EA245A917500930473 /* NSEventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E6245A917500930473 /* NSEventExtension.swift */; };
 		091D85EB245A917500930473 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E7245A917500930473 /* IntExtension.swift */; };
 		091D85EC245A917500930473 /* KeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E8245A917500930473 /* KeyExtension.swift */; };
@@ -15,7 +16,6 @@
 		FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */; };
 		FAEC34B31C9059DF004177E2 /* Magnet.h in Headers */ = {isa = PBXBuildFile; fileRef = FAEC34B21C9059DF004177E2 /* Magnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAEC34BA1C9059DF004177E2 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEC34AF1C9059DF004177E2 /* Magnet.framework */; };
-		FAEC34BF1C9059DF004177E2 /* MagnetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34BE1C9059DF004177E2 /* MagnetTests.swift */; };
 		FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34D71C905B4D004177E2 /* HotKey.swift */; };
 		FAEC34DA1C905B5A004177E2 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34D91C905B5A004177E2 /* KeyCombo.swift */; };
 		FAEC34DE1C905B7C004177E2 /* HotKeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34DD1C905B7C004177E2 /* HotKeyCenter.swift */; };
@@ -46,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		090077D3245D449F0099B20A /* KeyComboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyComboTests.swift; sourceTree = "<group>"; };
 		091D85C92459553A00930473 /* Sauce.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sauce.xcodeproj; path = ../Carthage/Checkouts/Sauce/Lib/Sauce.xcodeproj; sourceTree = "<group>"; };
 		091D85E6245A917500930473 /* NSEventExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEventExtension.swift; sourceTree = "<group>"; };
 		091D85E7245A917500930473 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 		FAEC34B21C9059DF004177E2 /* Magnet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magnet.h; sourceTree = "<group>"; };
 		FAEC34B41C9059DF004177E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAEC34B91C9059DF004177E2 /* MagnetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MagnetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAEC34BE1C9059DF004177E2 /* MagnetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnetTests.swift; sourceTree = "<group>"; };
 		FAEC34C01C9059DF004177E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAEC34D71C905B4D004177E2 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		FAEC34D91C905B5A004177E2 /* KeyCombo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCombo.swift; sourceTree = "<group>"; };
@@ -146,8 +146,8 @@
 		FAEC34BD1C9059DF004177E2 /* MagnetTests */ = {
 			isa = PBXGroup;
 			children = (
-				FAEC34BE1C9059DF004177E2 /* MagnetTests.swift */,
 				FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */,
+				090077D3245D449F0099B20A /* KeyComboTests.swift */,
 				FAEC34C01C9059DF004177E2 /* Info.plist */,
 			);
 			path = MagnetTests;
@@ -301,7 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAEC34BF1C9059DF004177E2 /* MagnetTests.swift in Sources */,
+				090077D4245D449F0099B20A /* KeyComboTests.swift in Sources */,
 				FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

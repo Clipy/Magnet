@@ -13,6 +13,7 @@ import XCTest
 
 final class CollectionExtensionTests: XCTestCase {
 
+    // MARK: - Tests
     func testTrueCount() {
         XCTAssertEqual([Bool]().trueCount, 0)
         XCTAssertEqual([true].trueCount, 1)
