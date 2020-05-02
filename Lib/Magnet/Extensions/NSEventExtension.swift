@@ -59,4 +59,21 @@ public extension NSEvent.ModifierFlags {
         }
         return carbonModifiers
     }
+
+    func keyEquivalentStrings() -> [String] {
+        var strings = [String]()
+        if contains(.control) {
+            strings.append("⌃")
+        }
+        if contains(.option) {
+            strings.append("⌥")
+        }
+        if contains(.shift) {
+            strings.append("⇧")
+        }
+        if contains(.command) {
+            strings.append("⌘")
+        }
+        return strings
+    }
 }

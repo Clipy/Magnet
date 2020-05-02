@@ -26,6 +26,9 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
         return modifiers.convertSupportCococaModifiers()
     }
+    public var keyEquivalentModifierMaskString: String {
+        return keyEquivalentModifierMask.keyEquivalentStrings().joined()
+    }
     public var currentKeyCode: CGKeyCode {
         guard !doubledModifiers else { return 0 }
         return Sauce.shared.keyCode(by: key)
