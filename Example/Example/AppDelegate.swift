@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                              action: #selector(AppDelegate.tappedHotKey2))
         hotKey2.register()
 
-        //　⌘　Double Tap
+        // ⌘　Double Tap
         guard let keyCombo3 = KeyCombo(doubledCocoaModifiers: .command) else { return }
         let hotKey3 = HotKey(identifier: "CommandDoubleTap",
                              keyCombo: keyCombo3,
