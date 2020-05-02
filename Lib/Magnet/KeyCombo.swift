@@ -23,6 +23,9 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return "" }
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
+    public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
+        return modifiers.convertSupportCococaModifiers()
+    }
     public var currentKeyCode: CGKeyCode {
         guard !doubledModifiers else { return 0 }
         return Sauce.shared.keyCode(by: key)
