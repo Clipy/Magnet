@@ -40,6 +40,11 @@ public extension NSEvent.ModifierFlags {
         return filterdModifierFlags
     }
 
+    func filterNotShiftModifiers() -> NSEvent.ModifierFlags {
+        guard contains(.shift) else { return NSEvent.ModifierFlags(rawValue: 0) }
+        return .shift
+    }
+
     func carbonModifiers(isSupportFunctionKey: Bool = false) -> Int {
         var carbonModifiers: Int = 0
         if contains(.command) {
