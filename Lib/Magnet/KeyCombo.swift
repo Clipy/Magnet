@@ -24,7 +24,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
     public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
-        return modifiers.convertSupportCococaModifiers()
+        return modifiers.convertSupportCocoaModifiers()
     }
     public var keyEquivalentModifierMaskString: String {
         return keyEquivalentModifierMask.keyEquivalentStrings().joined()
@@ -38,7 +38,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
     // MARK: - Initialize
     public convenience init?(QWERTYKeyCode: Int, carbonModifiers: Int) {
-        self.init(QWERTYKeyCode: QWERTYKeyCode, cocoaModifiers: carbonModifiers.convertSupportCococaModifiers())
+        self.init(QWERTYKeyCode: QWERTYKeyCode, cocoaModifiers: carbonModifiers.convertSupportCocoaModifiers())
     }
 
     public convenience init?(QWERTYKeyCode: Int, cocoaModifiers: NSEvent.ModifierFlags) {
@@ -47,7 +47,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     public convenience init?(key: Key, carbonModifiers: Int) {
-        self.init(key: key, cocoaModifiers: carbonModifiers.convertSupportCococaModifiers())
+        self.init(key: key, cocoaModifiers: carbonModifiers.convertSupportCocoaModifiers())
     }
 
     public init?(key: Key, cocoaModifiers: NSEvent.ModifierFlags) {
@@ -64,7 +64,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     public convenience init?(doubledCarbonModifiers modifiers: Int) {
-        self.init(doubledCocoaModifiers: modifiers.convertSupportCococaModifiers())
+        self.init(doubledCocoaModifiers: modifiers.convertSupportCocoaModifiers())
     }
 
     public init?(doubledCocoaModifiers modifiers: NSEvent.ModifierFlags) {

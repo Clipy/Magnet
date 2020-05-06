@@ -12,7 +12,12 @@ import Cocoa
 import Carbon
 
 public extension Int {
+    @available(*, deprecated, renamed: "convertSupportCocoaModifiers")
     func convertSupportCococaModifiers() -> NSEvent.ModifierFlags {
+        return convertSupportCocoaModifiers()
+    }
+
+    func convertSupportCocoaModifiers() -> NSEvent.ModifierFlags {
         var cocoaFlags: NSEvent.ModifierFlags = NSEvent.ModifierFlags(rawValue: 0)
         if (self & cmdKey) != 0 {
             cocoaFlags.insert(.command)
