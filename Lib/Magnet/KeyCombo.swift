@@ -111,7 +111,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(QWERTYKeyCode, forKey: CodingKeys.QWERTYKeyCode.rawValue)
         aCoder.encode(modifiers, forKey: CodingKeys.modifiers.rawValue)
-        aCoder.encode(doubledModifiers, forKey: CodingKeys.modifiers.rawValue)
+        aCoder.encode(doubledModifiers, forKey: CodingKeys.doubledModifiers.rawValue)
     }
 
     // MARK: - Codable
