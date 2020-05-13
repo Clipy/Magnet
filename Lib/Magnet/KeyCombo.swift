@@ -73,9 +73,10 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     public init?(doubledCocoaModifiers modifiers: NSEvent.ModifierFlags) {
+        let filterdCocoaModifiers = modifiers.filterUnsupportModifiers()
         guard modifiers.isSingleFlags else { return nil }
         self.key = .a
-        self.modifiers = modifiers.carbonModifiers()
+        self.modifiers = filterdCocoaModifiers.carbonModifiers()
         self.doubledModifiers = true
     }
 
