@@ -90,28 +90,28 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
     // MARK: - NSCoding
     public init?(coder aDecoder: NSCoder) {
-        self.doubledModifiers = aDecoder.decodeBool(forKey: "doubledModifiers")
+        self.doubledModifiers = aDecoder.decodeBool(forKey: CodingKeys.doubledModifiers.rawValue)
         if doubledModifiers {
             self.key = .a
         } else {
             // Changed KeyCode to QWERTYKeyCode from v3.0.0
-            let containsKeyCode = aDecoder.containsValue(forKey: "keyCode")
+            let containsKeyCode = aDecoder.containsValue(forKey: CodingKeys.keyCode.rawValue)
             let QWERTYKeyCode: Int
             if containsKeyCode {
-                QWERTYKeyCode = aDecoder.decodeInteger(forKey: "keyCode")
+                QWERTYKeyCode = aDecoder.decodeInteger(forKey: CodingKeys.keyCode.rawValue)
             } else {
-                QWERTYKeyCode = aDecoder.decodeInteger(forKey: "QWERTYKeyCode")
+                QWERTYKeyCode = aDecoder.decodeInteger(forKey: CodingKeys.QWERTYKeyCode.rawValue)
             }
             guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return nil }
             self.key = key
         }
-        self.modifiers = aDecoder.decodeInteger(forKey: "modifiers")
+        self.modifiers = aDecoder.decodeInteger(forKey: CodingKeys.modifiers.rawValue)
     }
 
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(QWERTYKeyCode, forKey: "QWERTYKeyCode")
-        aCoder.encode(modifiers, forKey: "modifiers")
-        aCoder.encode(doubledModifiers, forKey: "doubledModifiers")
+        aCoder.encode(QWERTYKeyCode, forKey: CodingKeys.QWERTYKeyCode.rawValue)
+        aCoder.encode(modifiers, forKey: CodingKeys.modifiers.rawValue)
+        aCoder.encode(doubledModifiers, forKey: CodingKeys.modifiers.rawValue)
     }
 
     // MARK: - Codable
