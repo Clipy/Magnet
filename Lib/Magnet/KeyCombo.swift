@@ -24,12 +24,10 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var characters: String {
         guard !doubledModifiers else { return "" }
-        guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return "" }
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        guard let key = Key(QWERTYKeyCode: QWERTYKeyCode) else { return "" }
         let modifiers = self.modifiers.convertSupportCocoaModifiers().filterNotShiftModifiers().carbonModifiers()
         return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
