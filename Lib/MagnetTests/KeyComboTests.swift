@@ -9,6 +9,7 @@
 //
 
 import XCTest
+import Carbon
 @testable import Magnet
 
 final class KeyComboTests: XCTestCase {
@@ -112,6 +113,103 @@ final class KeyComboTests: XCTestCase {
         XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌘")
         keyCombo = KeyCombo(doubledCocoaModifiers: .shift)
         XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⇧")
+    }
+
+    func testNSCodingMigrationV3() {
+        var oldKeyCombo: v2_0_0KeyCombo?
+        var archivedData: Data?
+        var unarchivedKeyCombo: KeyCombo?
+        NSKeyedUnarchiver.setClass(KeyCombo.self, forClassName: "MagnetTests.v2_0_0KeyCombo")
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_ANSI_V, modifiers: shiftKey, doubledModifiers: false)
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: 0, modifiers: controlKey, doubledModifiers: true)
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+    }
+
+    func testNSCoding() {
+        var keyCombo: KeyCombo?
+        var archivedData: Data?
+        var unarchivedKeyCombo: KeyCombo?
+        keyCombo = KeyCombo(key: .c, cocoaModifiers: [.shift, .control])
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        keyCombo = KeyCombo(doubledCocoaModifiers: [.option])
+        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
+        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+    }
+
+    func testCodableMigrationV3() throws {
+        var oldKeyCombo: v2_0_0KeyCombo?
+        var archivedData: Data?
+        var unarchivedKeyCombo: KeyCombo?
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_ANSI_V, modifiers: shiftKey, doubledModifiers: false)
+        archivedData = try JSONEncoder().encode(oldKeyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
+        archivedData = try JSONEncoder().encode(oldKeyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: 0, modifiers: controlKey, doubledModifiers: true)
+        archivedData = try JSONEncoder().encode(oldKeyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
+        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
+        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+    }
+
+    func testCodable() throws {
+        var keyCombo: KeyCombo?
+        var archivedData: Data?
+        var unarchivedKeyCombo: KeyCombo?
+        keyCombo = KeyCombo(key: .c, cocoaModifiers: [.shift, .control])
+        archivedData = try JSONEncoder().encode(keyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
+        archivedData = try JSONEncoder().encode(keyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        keyCombo = KeyCombo(doubledCocoaModifiers: [.option])
+        archivedData = try JSONEncoder().encode(keyCombo!)
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
+        XCTAssertNotNil(unarchivedKeyCombo)
+        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
     }
 
 }

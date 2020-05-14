@@ -12,6 +12,7 @@
 		091D85EB245A917500930473 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E7245A917500930473 /* IntExtension.swift */; };
 		091D85EC245A917500930473 /* KeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E8245A917500930473 /* KeyExtension.swift */; };
 		091D85ED245A917500930473 /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091D85E9245A917500930473 /* CollectionExtension.swift */; };
+		099F29FA246CFA9500992925 /* v2_0_0KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F29F9246CFA9500992925 /* v2_0_0KeyCombo.swift */; };
 		09DEE124245B128C00169BEC /* Sauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; };
 		FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */; };
 		FAEC34B31C9059DF004177E2 /* Magnet.h in Headers */ = {isa = PBXBuildFile; fileRef = FAEC34B21C9059DF004177E2 /* Magnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,6 +53,7 @@
 		091D85E7245A917500930473 /* IntExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		091D85E8245A917500930473 /* KeyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyExtension.swift; sourceTree = "<group>"; };
 		091D85E9245A917500930473 /* CollectionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
+		099F29F9246CFA9500992925 /* v2_0_0KeyCombo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v2_0_0KeyCombo.swift; sourceTree = "<group>"; };
 		FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensionTests.swift; sourceTree = "<group>"; };
 		FAEC34AF1C9059DF004177E2 /* Magnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Magnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC34B21C9059DF004177E2 /* Magnet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magnet.h; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		099F29F8246CFA8700992925 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				099F29F9246CFA9500992925 /* v2_0_0KeyCombo.swift */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		FAEC34A51C9059DF004177E2 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +156,7 @@
 		FAEC34BD1C9059DF004177E2 /* MagnetTests */ = {
 			isa = PBXGroup;
 			children = (
+				099F29F8246CFA8700992925 /* Fixtures */,
 				FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */,
 				090077D3245D449F0099B20A /* KeyComboTests.swift */,
 				FAEC34C01C9059DF004177E2 /* Info.plist */,
@@ -302,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				090077D4245D449F0099B20A /* KeyComboTests.swift in Sources */,
+				099F29FA246CFA9500992925 /* v2_0_0KeyCombo.swift in Sources */,
 				FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
