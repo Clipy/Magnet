@@ -10,6 +10,7 @@
 
 import Cocoa
 
+// swiftlint:disable type_name
 // ref: https://github.com/Clipy/Magnet/blob/v2.3.1/Lib/Magnet/KeyCombo.swift
 final class v2_0_0KeyCombo: NSObject, NSCoding, Codable {
 
