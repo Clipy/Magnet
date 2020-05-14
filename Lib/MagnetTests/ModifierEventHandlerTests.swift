@@ -11,6 +11,7 @@
 import XCTest
 @testable import Magnet
 
+// swiftlint:disable xctfail_message
 final class ModifierEventHandlerTests: XCTestCase {
 
     private let testTimeInterval = DispatchTimeInterval.milliseconds(100)
