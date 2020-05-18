@@ -22,7 +22,7 @@ public final class ModifierEventHandler {
     private let cleanQueue: DispatchQueue
 
     // MARK: - Initialize
-    init(cleanTimeInterval: DispatchTimeInterval = .milliseconds(300), cleanQueue: DispatchQueue = .main) {
+    public init(cleanTimeInterval: DispatchTimeInterval = .milliseconds(300), cleanQueue: DispatchQueue = .main) {
         self.cleanTimeInterval = cleanTimeInterval
         self.cleanQueue = cleanQueue
     }
