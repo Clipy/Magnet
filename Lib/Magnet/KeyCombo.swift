@@ -28,8 +28,10 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        let modifiers = self.modifiers.convertSupportCocoaModifiers().filterNotShiftModifiers().carbonModifiers()
-        return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
+        let keyCode = Int(Sauce.shared.keyCode(by: key))
+        guard key.isAlphabet else { return Sauce.shared.character(by: keyCode, cocoaModifiers: []) ?? "" }
+        let modifiers = self.modifiers.convertSupportCocoaModifiers().filterNotShiftModifiers()
+        return Sauce.shared.character(by: keyCode, cocoaModifiers: modifiers) ?? ""
     }
     public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
         return modifiers.convertSupportCocoaModifiers()

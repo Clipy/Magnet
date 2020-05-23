@@ -78,7 +78,7 @@ final class KeyComboTests: XCTestCase {
         keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
         XCTAssertEqual(keyCombo?.keyEquivalent, "A")
         keyCombo = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "!")
+        XCTAssertEqual(keyCombo?.keyEquivalent, "1")
         keyCombo = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
         XCTAssertEqual(keyCombo?.keyEquivalent, ";")
         keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.shift])
