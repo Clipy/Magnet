@@ -17,6 +17,7 @@
 		099F2A07246D094500992925 /* ModifierEventHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F2A04246D094500992925 /* ModifierEventHandlerTests.swift */; };
 		09DEE124245B128C00169BEC /* Sauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D85CF2459553A00930473 /* Sauce.framework */; };
 		FA3AA2162315A6A3007EAA1F /* CollectionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */; };
+		FADEA45A24796103003AEC83 /* v3_1_0KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADEA45924796103003AEC83 /* v3_1_0KeyCombo.swift */; };
 		FAEC34B31C9059DF004177E2 /* Magnet.h in Headers */ = {isa = PBXBuildFile; fileRef = FAEC34B21C9059DF004177E2 /* Magnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAEC34BA1C9059DF004177E2 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEC34AF1C9059DF004177E2 /* Magnet.framework */; };
 		FAEC34D81C905B4D004177E2 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34D71C905B4D004177E2 /* HotKey.swift */; };
@@ -59,6 +60,7 @@
 		099F29FF246D091400992925 /* ModifierEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifierEventHandler.swift; sourceTree = "<group>"; };
 		099F2A04246D094500992925 /* ModifierEventHandlerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifierEventHandlerTests.swift; sourceTree = "<group>"; };
 		FA3AA2152315A6A3007EAA1F /* CollectionExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensionTests.swift; sourceTree = "<group>"; };
+		FADEA45924796103003AEC83 /* v3_1_0KeyCombo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v3_1_0KeyCombo.swift; sourceTree = "<group>"; };
 		FAEC34AF1C9059DF004177E2 /* Magnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Magnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC34B21C9059DF004177E2 /* Magnet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magnet.h; sourceTree = "<group>"; };
 		FAEC34B41C9059DF004177E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				099F29F9246CFA9500992925 /* v2_0_0KeyCombo.swift */,
+				FADEA45924796103003AEC83 /* v3_1_0KeyCombo.swift */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADEA45A24796103003AEC83 /* v3_1_0KeyCombo.swift in Sources */,
 				099F2A07246D094500992925 /* ModifierEventHandlerTests.swift in Sources */,
 				090077D4245D449F0099B20A /* KeyComboTests.swift in Sources */,
 				099F29FA246CFA9500992925 /* v2_0_0KeyCombo.swift in Sources */,
