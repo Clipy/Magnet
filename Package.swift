@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Magnet"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Clipy/Sauce", from: "2.0.1"),
+        .package(url: "https://github.com/Clipy/Sauce", from: "2.1.0"),
     ],
     targets: [
         .target(
