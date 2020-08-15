@@ -8,9 +8,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
-        submodules: true
+        submodules: recursive
 
     - name: Setup ruby
       uses: actions/setup-ruby@v1
@@ -28,13 +28,21 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gem-
 
-    - name: Cache Mint packages
+    - name: Cache Mint Builds
       uses: actions/cache@v1
       with:
         path: ${{ env.MINT_PATH }}
-        key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
+        key: ${{ runner.os }}-mint-build-${{ env.SWIFTLINT_VERSION }}
         restore-keys: |
-          ${{ runner.os }}-mint-
+          ${{ runner.os }}-mint-build-
+
+    - name: Cache Mint Links
+      uses: actions/cache@v1
+      with:
+        path: ${{ env.MINT_LINK_PATH }}
+        key: ${{ runner.os }}-mint-link-${{ env.SWIFTLINT_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-mint-link-
 
     - name: Bundle install
       run: |
@@ -45,7 +53,7 @@ jobs:
     - name: Install Mint and Packages
       run: |
         brew install mint
-        mint bootstrap --link
+        mint install realm/SwiftLint@${{ env.SWIFTLINT_VERSION }}
 
     - name: Run Danger
       run: bundle exec danger
@@ -53,4 +61,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     env:
-      MINT_PATH: mint
+      MINT_PATH: ${{ github.workspace }}/mint
+      MINT_LINK_PATH: ${{ github.workspace }}/mint/bin
+      SWIFTLINT_VERSION: 0.39.1
