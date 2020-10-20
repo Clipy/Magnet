@@ -15,6 +15,7 @@ public extension NSEvent.ModifierFlags {
     var containsSupportModifiers: Bool {
         return contains(.command) || contains(.option) || contains(.control) || contains(.shift) || contains(.function)
     }
+
     var isSingleFlags: Bool {
         let commandSelected = contains(.command)
         let optionSelected = contains(.option)
@@ -45,6 +46,42 @@ public extension NSEvent.ModifierFlags {
         return .shift
     }
 
+    func keyEquivalentStrings() -> [String] {
+        var strings = [String]()
+        if contains(.control) {
+            strings.append("⌃")
+        }
+        if contains(.option) {
+            strings.append("⌥")
+        }
+        if contains(.shift) {
+            strings.append("⇧")
+        }
+        if contains(.command) {
+            strings.append("⌘")
+        }
+        return strings
+    }
+}
+
+public extension NSEvent.ModifierFlags {
+    init(carbonModifiers: Int) {
+        var result = NSEvent.ModifierFlags(rawValue: 0)
+        if (carbonModifiers & cmdKey) != 0 {
+            result.insert(.command)
+        }
+        if (carbonModifiers & optionKey) != 0 {
+            result.insert(.option)
+        }
+        if (carbonModifiers & controlKey) != 0 {
+            result.insert(.control)
+        }
+        if (carbonModifiers & shiftKey) != 0 {
+            result.insert(.shift)
+        }
+        self = result
+    }
+
     func carbonModifiers(isSupportFunctionKey: Bool = false) -> Int {
         var carbonModifiers: Int = 0
         if contains(.command) {
@@ -63,22 +100,5 @@ public extension NSEvent.ModifierFlags {
             carbonModifiers |= Int(NSEvent.ModifierFlags.function.rawValue)
         }
         return carbonModifiers
-    }
-
-    func keyEquivalentStrings() -> [String] {
-        var strings = [String]()
-        if contains(.control) {
-            strings.append("⌃")
-        }
-        if contains(.option) {
-            strings.append("⌥")
-        }
-        if contains(.shift) {
-            strings.append("⇧")
-        }
-        if contains(.command) {
-            strings.append("⌘")
-        }
-        return strings
     }
 }
