@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Sauce",
+        "repositoryURL": "https://github.com/Clipy/Sauce",
+        "state": {
+          "branch": null,
+          "revision": "60508229cecbb915866151ebe9a0bf060a454c84",
+          "version": "2.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
