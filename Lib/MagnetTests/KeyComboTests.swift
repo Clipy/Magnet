@@ -93,31 +93,31 @@ final class KeyComboTests: XCTestCase {
         var keyCombo: KeyCombo?
         // Command + a
         keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "a")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "a")
         // Shift + a
         keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "A")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "A")
         // Option + a
         keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "a")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "a")
         // Option + Shift + a
         keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "A")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "A")
         // Option + Shift + 1
         keyCombo = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "1")
         // Option + Shift + Keypad 1
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "1")
         keyCombo = KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "1")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "1")
         // Option + ;
         keyCombo = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.keyEquivalent, ";")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, ";")
         // Shift + F1
         keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "F1")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "F1")
         // Option double tap
         keyCombo = KeyCombo(doubledCocoaModifiers: .option)
-        XCTAssertEqual(keyCombo?.keyEquivalent, "")
+        XCTAssertEqual(keyCombo?.qwertyKeyLabel, "")
     }
 
     func testKeyEquivalentModifierMaskString() {
