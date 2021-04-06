@@ -22,18 +22,18 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         guard !doubledModifiers else { return 0 }
         return Int(key.QWERTYKeyCode)
     }
-    public var characters: String {
-        guard !doubledModifiers else { return "" }
-        return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
-    }
     /// The QWERTY key equivalent of this key combo's key code. Using a different keyboard layout, this
     /// will not match the typed character. Use `keyEquivalent` instead.
-    public var qwertyKeyLabel: String {
+    public var QWERTYKeyLabel: String {
         guard !doubledModifiers else { return "" }
         let keyCode = Int(Sauce.shared.keyCode(by: key))
         guard key.isAlphabet else { return Sauce.shared.character(by: keyCode, cocoaModifiers: []) ?? "" }
         let modifiers = self.modifiers.convertSupportCocoaModifiers().filterNotShiftModifiers()
         return Sauce.shared.character(by: keyCode, cocoaModifiers: modifiers) ?? ""
+    }
+    public var characters: String {
+        guard !doubledModifiers else { return "" }
+        return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
     }
     /// Character that would be typed in a text field when the user presses the key.
     /// Use this for `NSMenuItem`'s `keyEquivalent` which expects the character and not the QWERTY key code.
