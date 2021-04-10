@@ -10,6 +10,7 @@
 
 import Cocoa
 import Carbon
+import Sauce
 
 public extension NSEvent.ModifierFlags {
     var containsSupportModifiers: Bool {
@@ -100,5 +101,20 @@ public extension NSEvent.ModifierFlags {
             carbonModifiers |= Int(NSEvent.ModifierFlags.function.rawValue)
         }
         return carbonModifiers
+    }
+}
+
+extension NSEvent.EventType {
+    fileprivate var isKeyboardEvent: Bool {
+        return [.keyUp, .keyDown].contains(self)
+    }
+}
+
+extension NSEvent {
+    /// Returns a matching `KeyCombo` for the event, if the event is a keyboard event and the key is recognized.
+    public var keyCombo: KeyCombo? {
+        guard self.type.isKeyboardEvent else { return nil }
+        guard let key = Sauce.shared.key(by: Int(self.keyCode)) else { return nil }
+        return KeyCombo(key: key, cocoaModifiers: self.modifierFlags)
     }
 }
