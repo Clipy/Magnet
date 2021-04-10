@@ -106,7 +106,7 @@ public extension NSEvent.ModifierFlags {
 
 extension NSEvent.EventType {
     fileprivate var isKeyboardEvent: Bool {
-        return [.keyUp, .keyDown].contains(self)
+        return [.keyUp, .keyDown, .flagsChanged].contains(self)
     }
 }
 
