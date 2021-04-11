@@ -24,14 +24,14 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var characters: String {
         guard !doubledModifiers else { return "" }
-        return Sauce.shared.character(by: Int(Sauce.shared.keyCode(by: key)), carbonModifiers: modifiers) ?? ""
+        return Sauce.shared.character(for: Int(Sauce.shared.keyCode(for: key)), carbonModifiers: modifiers) ?? ""
     }
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        let keyCode = Int(Sauce.shared.keyCode(by: key))
-        guard key.isAlphabet else { return Sauce.shared.character(by: keyCode, cocoaModifiers: []) ?? "" }
+        let keyCode = Int(Sauce.shared.keyCode(for: key))
+        guard key.isAlphabet else { return Sauce.shared.character(for: keyCode, cocoaModifiers: []) ?? "" }
         let modifiers = keyEquivalentModifierMask.filterNotShiftModifiers()
-        return Sauce.shared.character(by: keyCode, cocoaModifiers: modifiers) ?? ""
+        return Sauce.shared.character(for: keyCode, cocoaModifiers: modifiers) ?? ""
     }
     public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
         return NSEvent.ModifierFlags(carbonModifiers: self.modifiers)
@@ -41,7 +41,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var currentKeyCode: CGKeyCode {
         guard !doubledModifiers else { return 0 }
-        return Sauce.shared.keyCode(by: key)
+        return Sauce.shared.keyCode(for: key)
     }
 
     // MARK: - Initialize

@@ -114,7 +114,7 @@ extension NSEvent {
     /// Returns a matching `KeyCombo` for the event, if the event is a keyboard event and the key is recognized.
     public var keyCombo: KeyCombo? {
         guard self.type.isKeyboardEvent else { return nil }
-        guard let key = Sauce.shared.key(by: Int(self.keyCode)) else { return nil }
+        guard let key = Sauce.shared.key(for: Int(self.keyCode)) else { return nil }
         return KeyCombo(key: key, cocoaModifiers: self.modifierFlags)
     }
 }
