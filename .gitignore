@@ -7,6 +7,7 @@
 ## Build generated
 build/
 DerivedData/
+Magnet.xcodeproj
 
 ## Various settings
 *.pbxuser
@@ -41,6 +42,7 @@ playground.xcworkspace
 # Package.pins
 # Package.resolved
 .build/
+.swiftpm/
 
 # CocoaPods
 #
@@ -133,5 +135,3 @@ build-iPhoneSimulator/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
-
-
