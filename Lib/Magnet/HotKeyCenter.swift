@@ -11,7 +11,7 @@
 import Cocoa
 import Carbon
 
-public final class HotKeyCenter {
+open class HotKeyCenter {
 
     // MARK: - Properties
     public static let shared = HotKeyCenter()
@@ -37,7 +37,7 @@ public final class HotKeyCenter {
 }
 
 // MARK: - Register & Unregister
-public extension HotKeyCenter {
+open extension HotKeyCenter {
     @discardableResult
     func register(with hotKey: HotKey) -> Bool {
         guard !hotKeys.keys.contains(hotKey.identifier) else { return false }
@@ -100,7 +100,7 @@ public extension HotKeyCenter {
 }
 
 // MARK: - Terminate
-extension HotKeyCenter {
+open extension HotKeyCenter {
     private func observeApplicationTerminate() {
         notificationCenter.addObserver(self,
                                        selector: #selector(HotKeyCenter.applicationWillTerminate),
@@ -114,7 +114,7 @@ extension HotKeyCenter {
 }
 
 // MARK: - HotKey Events
-private extension HotKeyCenter {
+open extension HotKeyCenter {
     func installHotKeyPressedEventHandler() {
         var pressedEventType = EventTypeSpec()
         pressedEventType.eventClass = OSType(kEventClassKeyboard)
@@ -151,7 +151,7 @@ private extension HotKeyCenter {
 }
 
 // MARK: - Double Tap Modifier Event
-private extension HotKeyCenter {
+open extension HotKeyCenter {
     func installModifiersChangedEventHandlerIfNeeded() {
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
             self?.modifierEventHandler.handleModifiersEvent(with: event.modifierFlags, timestamp: event.timestamp)

@@ -11,7 +11,7 @@
 import Cocoa
 import Carbon
 
-public final class HotKey: NSObject {
+open class HotKey: NSObject {
 
     // MARK: - Properties
     public let identifier: String
@@ -65,7 +65,7 @@ public final class HotKey: NSObject {
 }
 
 // MARK: - Invoke
-public extension HotKey {
+open extension HotKey {
     func invoke() {
         guard let callback = self.callback else {
             guard let target = self.target as? NSObject, let selector = self.action else { return }
@@ -84,7 +84,7 @@ public extension HotKey {
 }
 
 // MARK: - Register & UnRegister
-public extension HotKey {
+open extension HotKey {
     @discardableResult
     func register() -> Bool {
         return HotKeyCenter.shared.register(with: self)
@@ -96,7 +96,7 @@ public extension HotKey {
 }
 
 // MARK: - override isEqual
-public extension HotKey {
+open extension HotKey {
     override func isEqual(_ object: Any?) -> Bool {
         guard let hotKey = object as? HotKey else { return false }
 

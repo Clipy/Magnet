@@ -12,7 +12,7 @@ import Cocoa
 import Carbon
 import Sauce
 
-public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
+open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
     // MARK: - Properties
     public let key: Key
@@ -175,6 +175,6 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 }
 
 // MARK: - Error
-public extension KeyCombo {
+open extension KeyCombo {
     struct InitializeError: Error {}
 }
