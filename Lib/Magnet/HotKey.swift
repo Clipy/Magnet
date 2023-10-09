@@ -97,7 +97,7 @@ extension HotKey {
 
 // MARK: - override isEqual
 extension HotKey {
-    override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let hotKey = object as? HotKey else { return false }
 
         return self.identifier == hotKey.identifier &&
