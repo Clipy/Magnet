@@ -2,15 +2,20 @@ name: Xcode-Build
 on: [push, pull_request]
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, macos-13]
+        xcode: ['14.2', '15.0']
+        exclude:
+          - os: macos-12
+            xcode: '15.0'
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
-
-    - name: Xcode select
-      run: sudo xcode-select -s /Applications/Xcode_11.4.app
-
     - name: Build and Test
       run: |
         set -o pipefail
@@ -18,11 +23,9 @@ jobs:
           -workspace "$PROJECT" \
           -scheme "$SCHEME" \
           -sdk "$SDK" \
-          -destination "$DESTINATION" \
           -configuration Debug \
           ENABLE_TESTABILITY=YES | xcpretty -c;
       env:
         PROJECT: Magnet.xcworkspace
         SCHEME: Magnet
         SDK: macosx
-        DESTINATION: arch=x86_64

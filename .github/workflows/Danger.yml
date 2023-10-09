@@ -5,21 +5,21 @@ on: pull_request
 jobs:
   danger:
 
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
         fetch-depth: 0
 
     - name: Setup ruby
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.6'
+        ruby-version: '3.2'
 
     - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_11.4.app
+      run: sudo xcode-select -s /Applications/Xcode_15.0.app/Contents/Developer
 
     - name: Cache RubyGems
       uses: actions/cache@v1
@@ -64,4 +64,4 @@ jobs:
     env:
       MINT_PATH: ${{ github.workspace }}/mint
       MINT_LINK_PATH: ${{ github.workspace }}/mint/bin
-      SWIFTLINT_VERSION: 0.39.1
+      SWIFTLINT_VERSION: 0.53.0

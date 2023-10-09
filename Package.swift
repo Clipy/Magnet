@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Magnet",
     platforms: [
-      .macOS(.v10_10)
+      .macOS(.v10_13)
     ],
     products: [
         .library(
@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Magnet"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Clipy/Sauce", .upToNextMinor(from: "2.2.0")),
+        .package(url: "https://github.com/Clipy/Sauce", .upToNextMinor(from: "2.4.0")),
     ],
     targets: [
         .target(
