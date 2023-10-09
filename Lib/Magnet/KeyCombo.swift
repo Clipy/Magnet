@@ -92,7 +92,7 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     // MARK: - NSCoding
-    public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         self.doubledModifiers = aDecoder.decodeBool(forKey: CodingKeys.doubledModifiers.rawValue)
         self.modifiers = aDecoder.decodeInteger(forKey: CodingKeys.modifiers.rawValue)
         guard !doubledModifiers else {
@@ -124,7 +124,7 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     // MARK: - Codable
-    public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.doubledModifiers = try container.decode(Bool.self, forKey: .doubledModifiers)
         self.modifiers = try container.decode(Int.self, forKey: .modifiers)
