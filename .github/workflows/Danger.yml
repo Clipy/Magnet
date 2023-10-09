@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+permissions:
+  pull-requests: write
 jobs:
   danger:
     runs-on: macos-13
