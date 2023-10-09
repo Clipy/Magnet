@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Magnet",
     platforms: [
-      .macOS(.v10_10)
+      .macOS(.v10_13)
     ],
     products: [
         .library(
