@@ -37,9 +37,9 @@ open class HotKeyCenter {
 }
 
 // MARK: - Register & Unregister
-open extension HotKeyCenter {
+extension HotKeyCenter {
     @discardableResult
-    func register(with hotKey: HotKey) -> Bool {
+    public func register(with hotKey: HotKey) -> Bool {
         guard !hotKeys.keys.contains(hotKey.identifier) else { return false }
         guard !hotKeys.values.contains(hotKey) else { return false }
 
@@ -78,7 +78,7 @@ open extension HotKeyCenter {
         return true
     }
 
-    func unregister(with hotKey: HotKey) {
+    public func unregister(with hotKey: HotKey) {
         if let carbonHotKey = hotKey.hotKeyRef {
             UnregisterEventHotKey(carbonHotKey)
         }
@@ -88,19 +88,19 @@ open extension HotKeyCenter {
     }
 
     @discardableResult
-    func unregisterHotKey(with identifier: String) -> Bool {
+    public func unregisterHotKey(with identifier: String) -> Bool {
         guard let hotKey = hotKeys[identifier] else { return false }
         unregister(with: hotKey)
         return true
     }
 
-    func unregisterAll() {
+    public func unregisterAll() {
         hotKeys.forEach { unregister(with: $1) }
     }
 }
 
 // MARK: - Terminate
-open extension HotKeyCenter {
+extension HotKeyCenter {
     private func observeApplicationTerminate() {
         notificationCenter.addObserver(self,
                                        selector: #selector(HotKeyCenter.applicationWillTerminate),
@@ -114,8 +114,8 @@ open extension HotKeyCenter {
 }
 
 // MARK: - HotKey Events
-open extension HotKeyCenter {
-    func installHotKeyPressedEventHandler() {
+extension HotKeyCenter {
+    public func installHotKeyPressedEventHandler() {
         var pressedEventType = EventTypeSpec()
         pressedEventType.eventClass = OSType(kEventClassKeyboard)
         pressedEventType.eventKind = OSType(kEventHotKeyPressed)
@@ -124,7 +124,7 @@ open extension HotKeyCenter {
         }, 1, &pressedEventType, nil, nil)
     }
 
-    func sendPressedKeyboardEvent(_ event: EventRef) -> OSStatus {
+    public func sendPressedKeyboardEvent(_ event: EventRef) -> OSStatus {
         assert(Int(GetEventClass(event)) == kEventClassKeyboard, "Unknown event class")
 
         var hotKeyId = EventHotKeyID()
@@ -151,8 +151,8 @@ open extension HotKeyCenter {
 }
 
 // MARK: - Double Tap Modifier Event
-open extension HotKeyCenter {
-    func installModifiersChangedEventHandlerIfNeeded() {
+extension HotKeyCenter {
+    public func installModifiersChangedEventHandlerIfNeeded() {
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
             self?.modifierEventHandler.handleModifiersEvent(with: event.modifierFlags, timestamp: event.timestamp)
         }

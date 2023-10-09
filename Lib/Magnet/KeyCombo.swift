@@ -175,6 +175,6 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 }
 
 // MARK: - Error
-open extension KeyCombo {
-    struct InitializeError: Error {}
+extension KeyCombo {
+    public struct InitializeError: Error {}
 }

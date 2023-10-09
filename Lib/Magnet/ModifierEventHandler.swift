@@ -30,8 +30,8 @@ open class ModifierEventHandler {
 }
 
 // MARK: - Handling
-open extension ModifierEventHandler {
-    func handleModifiersEvent(with modifierFlags: NSEvent.ModifierFlags, timestamp: TimeInterval) {
+extension ModifierEventHandler {
+    public func handleModifiersEvent(with modifierFlags: NSEvent.ModifierFlags, timestamp: TimeInterval) {
         guard lastHandledEventTimestamp != timestamp else { return }
         lastHandledEventTimestamp = timestamp
 
