@@ -1,67 +1,39 @@
 name: Danger
-
-on: pull_request
-
+on: 
+  pull_request:
+  push:
+    branches:
+      - master
 jobs:
   danger:
-
     runs-on: macos-13
-
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
         fetch-depth: 0
-
     - name: Setup ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.2'
-
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_15.0.app/Contents/Developer
-
-    - name: Cache RubyGems
-      uses: actions/cache@v1
+        bundler-cache: true
+    - name: Cache Mint
+      uses: actions/cache@v3
       with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+        path: .mint
+        key: ${{ runner.os }}-mint-${{ env.SWIFTLINT_VERSION }}
         restore-keys: |
-          ${{ runner.os }}-gem-
-
-    - name: Cache Mint Builds
-      uses: actions/cache@v1
-      with:
-        path: ${{ env.MINT_PATH }}
-        key: ${{ runner.os }}-mint-build-${{ env.SWIFTLINT_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-mint-build-
-
-    - name: Cache Mint Links
-      uses: actions/cache@v1
-      with:
-        path: ${{ env.MINT_LINK_PATH }}
-        key: ${{ runner.os }}-mint-link-${{ env.SWIFTLINT_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-mint-link-
-
-    - name: Bundle install
-      run: |
-        gem install bundler
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
-
+          ${{ runner.os }}-mint-
     - name: Install Mint and Packages
       run: |
         brew install mint
         mint install realm/SwiftLint@${{ env.SWIFTLINT_VERSION }}
-
     - name: Run Danger
       run: bundle exec danger
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     env:
-      MINT_PATH: ${{ github.workspace }}/mint
-      MINT_LINK_PATH: ${{ github.workspace }}/mint/bin
+      MINT_PATH: .mint/lib
+      MINT_LINK_PATH: .mint/bin
       SWIFTLINT_VERSION: 0.53.0
+      DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
