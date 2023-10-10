@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - master
-permissions:
-  pull-requests: write
 jobs:
   danger:
     runs-on: macos-13
+    # https://github.com/danger/danger/issues/1103
+    if: (github.event.pull_request.head.repo.fork == false)
     steps:
     - uses: actions/checkout@v4
       with:
