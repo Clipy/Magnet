@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Cocoa
 
 open class ModifierEventHandler {
@@ -70,3 +71,4 @@ extension ModifierEventHandler {
         }
     }
 }
+#endif

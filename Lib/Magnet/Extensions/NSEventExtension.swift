@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Cocoa
 import Carbon
 import Sauce
@@ -118,3 +119,4 @@ extension NSEvent {
         return KeyCombo(key: key, cocoaModifiers: self.modifierFlags)
     }
 }
+#endif

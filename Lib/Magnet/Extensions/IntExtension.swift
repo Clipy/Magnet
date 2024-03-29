@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Cocoa
 import Carbon
 
@@ -22,3 +23,4 @@ public extension Int {
         return NSEvent.ModifierFlags(carbonModifiers: self)
     }
 }
+#endif

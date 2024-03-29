@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Foundation
 
 public extension Collection where Element == Bool {
@@ -15,3 +16,4 @@ public extension Collection where Element == Bool {
         return filter { $0 }.count
     }
 }
+#endif

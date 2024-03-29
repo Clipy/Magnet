@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Foundation
 import Sauce
 
@@ -73,3 +74,4 @@ public extension Key {
         }
     }
 }
+#endif

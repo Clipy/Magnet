@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Cocoa
 import Carbon
 
@@ -168,3 +169,4 @@ extension HotKeyCenter {
         }
     }
 }
+#endif

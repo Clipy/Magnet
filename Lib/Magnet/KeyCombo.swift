@@ -8,6 +8,7 @@
 //  Copyright © 2015-2020 Clipy Project.
 //
 
+#if os(macOS)
 import Cocoa
 import Carbon
 import Sauce
@@ -178,3 +179,4 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 extension KeyCombo {
     public struct InitializeError: Error {}
 }
+#endif
