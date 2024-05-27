@@ -64,7 +64,6 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         if key.isFunctionKey {
             filterdCocoaModifiers.insert(.function)
         }
-        guard filterdCocoaModifiers.containsSupportModifiers else { return nil }
         self.key = key
         self.modifiers = filterdCocoaModifiers.carbonModifiers(isSupportFunctionKey: true)
         self.doubledModifiers = false
