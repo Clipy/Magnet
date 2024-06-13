@@ -22,15 +22,27 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         guard !doubledModifiers else { return 0 }
         return Int(key.QWERTYKeyCode)
     }
+    /// The QWERTY key equivalent of this key combo's key code. Using a different keyboard layout, this
+    /// will not match the typed character. Use `keyEquivalent` instead.
+    public var QWERTYKeyLabel: String {
+        guard !doubledModifiers else { return "" }
+        let keyCode = Int(Sauce.shared.keyCode(for: key))
+        guard key.isAlphabet else { return Sauce.shared.character(for: keyCode, cocoaModifiers: []) ?? "" }
+        let modifiers = NSEvent.ModifierFlags(carbonModifiers: self.modifiers).filterNotShiftModifiers()
+        return Sauce.shared.character(for: keyCode, cocoaModifiers: modifiers) ?? ""
+    }
     public var characters: String {
         guard !doubledModifiers else { return "" }
         return Sauce.shared.character(for: Int(Sauce.shared.keyCode(for: key)), carbonModifiers: modifiers) ?? ""
     }
+    /// Character that would be typed in a text field when the user presses the key.
+    /// Use this for `NSMenuItem`'s `keyEquivalent` which expects the character and not the QWERTY key code.
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        let keyCode = Int(Sauce.shared.keyCode(for: key))
+        // Not calling `Sauce.shared.keyCode` skips translation of the current layout
+        let keyCode = Int(key.QWERTYKeyCode)
         guard key.isAlphabet else { return Sauce.shared.character(for: keyCode, cocoaModifiers: []) ?? "" }
-        let modifiers = keyEquivalentModifierMask.filterNotShiftModifiers()
+        let modifiers = NSEvent.ModifierFlags(carbonModifiers: self.modifiers).filterNotShiftModifiers()
         return Sauce.shared.character(for: keyCode, cocoaModifiers: modifiers) ?? ""
     }
     public var keyEquivalentModifierMask: NSEvent.ModifierFlags {
