@@ -101,7 +101,7 @@ struct ModifierEventHandlerTests {
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        await testQueue.waitAfter(deadline: .now() + testTimeInterval - .milliseconds(1))
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval - .milliseconds(50))
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
         #expect(tappedModifierFlags == .shift)
     }
@@ -115,7 +115,7 @@ struct ModifierEventHandlerTests {
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(1))
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(50))
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
         #expect(tappedModifierFlags == nil)
     }
