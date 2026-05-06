@@ -1,11 +1,10 @@
-// swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
     name: "Magnet",
     platforms: [
-      .macOS(.v10_13)
+      .macOS(.v11)
     ],
     products: [
         .library(
@@ -19,11 +18,15 @@ let package = Package(
         .target(
             name: "Magnet",
             dependencies: ["Sauce"],
-            path: "Lib/Magnet"),
+            path: "Lib/Magnet",
+            exclude: ["Info.plist"]
+        ),
         .testTarget(
             name: "MagnetTests",
             dependencies: ["Magnet"],
-            path: "Lib/MagnetTests"),
+            path: "Lib/MagnetTests",
+            exclude: ["Info.plist"]
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )
