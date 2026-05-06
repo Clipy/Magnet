@@ -28,7 +28,7 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        let keyCode = Int(Sauce.shared.keyCode(for: key))
+        let keyCode = Int(Sauce.shared.keyCode(for: key, carbonModifiers: modifiers))
         guard key.isAlphabet else { return Sauce.shared.character(for: keyCode, cocoaModifiers: []) ?? "" }
         let modifiers = keyEquivalentModifierMask.filterNotShiftModifiers()
         return Sauce.shared.character(for: keyCode, cocoaModifiers: modifiers) ?? ""
@@ -41,7 +41,7 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var currentKeyCode: CGKeyCode {
         guard !doubledModifiers else { return 0 }
-        return Sauce.shared.keyCode(for: key)
+        return Sauce.shared.keyCode(for: key, carbonModifiers: modifiers)
     }
 
     // MARK: - Initialize
