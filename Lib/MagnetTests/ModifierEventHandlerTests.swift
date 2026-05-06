@@ -5,64 +5,65 @@
 //  GitHub: https://github.com/clipy
 //  HP: https://clipy-app.com
 // 
-//  Copyright © 2015-2020 Clipy Project.
+//  Copyright © 2015 Clipy Project.
 //
 
-import XCTest
+import Cocoa
+import Foundation
+import Testing
 @testable import Magnet
 
-// swiftlint:disable xctfail_message
-final class ModifierEventHandlerTests: XCTestCase {
-
+struct ModifierEventHandlerTests {
     private let testTimeInterval = DispatchTimeInterval.milliseconds(100)
     private let testQueue = DispatchQueue(label: "com.clipy-app.Magnet")
 
     // MARK: - Tests
-    func testDoubleTapModifierEvent() {
+    @Test
+    func doubleTapModifierEvent() {
         let eventHandler = ModifierEventHandler(cleanQueue: testQueue)
-        let expectation = XCTestExpectation(description: "Shift double tapped")
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            XCTAssertEqual(tappedModifierFlags, [.shift])
-            expectation.fulfill()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
-        wait(for: [expectation], timeout: 1)
+        #expect(tappedModifierFlags == .shift)
     }
 
-    func testFilterHandledTimestampModifierEvent() {
+    @Test
+    func filterHandledTimestampModifierEvent() {
         let eventHandler = ModifierEventHandler(cleanQueue: testQueue)
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            XCTFail()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
+        #expect(tappedModifierFlags == nil)
     }
 
-    func testFilerUnsupportModifierEvent() {
+    @Test
+    func filerUnsupportModifierEvent() {
         let eventHandler = ModifierEventHandler(cleanQueue: testQueue)
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            XCTFail()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.function], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
         eventHandler.handleModifiersEvent(with: [.function], timestamp: 2)
+        #expect(tappedModifierFlags == nil)
     }
 
-    func testMultiModifierEvent() {
+    @Test
+    func multiModifierEvent() {
         let eventHandler = ModifierEventHandler(cleanQueue: testQueue)
-        let expectation = XCTestExpectation(description: "Shift double tapped")
-        var isFirstCalled = false
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            if isFirstCalled {
-                XCTFail()
-            } else {
-                XCTAssertEqual(tappedModifierFlags, [.shift])
-                isFirstCalled = true
-            }
-            expectation.fulfill()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            #expect(tappedModifierFlags == nil)
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
@@ -71,21 +72,16 @@ final class ModifierEventHandlerTests: XCTestCase {
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 4)
         eventHandler.handleModifiersEvent(with: [], timestamp: 5)
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 6)
-        wait(for: [expectation], timeout: 1)
+        #expect(tappedModifierFlags == .shift)
     }
 
-    func testSimultaneouslyPressMultiModifierEvent() {
+    @Test
+    func simultaneouslyPressMultiModifierEvent() {
         let eventHandler = ModifierEventHandler(cleanQueue: testQueue)
-        let expectation = XCTestExpectation(description: "Shift double tapped")
-        var isFirstCalled = false
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            if isFirstCalled {
-                XCTFail()
-            } else {
-                XCTAssertEqual(tappedModifierFlags, [.shift])
-                isFirstCalled = true
-            }
-            expectation.fulfill()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            #expect(tappedModifierFlags == nil)
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.shift, .control], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 1)
@@ -93,36 +89,38 @@ final class ModifierEventHandlerTests: XCTestCase {
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 3)
         eventHandler.handleModifiersEvent(with: [], timestamp: 4)
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 5)
-        wait(for: [expectation], timeout: 1)
+        #expect(tappedModifierFlags == .shift)
     }
 
-    func testNoCleanModifierEvent() {
+    @Test
+    func cleanModifierEvent() async throws {
         let eventHandler = ModifierEventHandler(cleanTimeInterval: testTimeInterval, cleanQueue: testQueue)
-        let expectation = XCTestExpectation(description: "Shift double tapped")
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            XCTAssertEqual(tappedModifierFlags, [.shift])
-            expectation.fulfill()
+        var tappedModifierFlags: NSEvent.ModifierFlags?
+        eventHandler.doubleTapped = { flags in
+            tappedModifierFlags = flags
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        testQueue.asyncAfter(deadline: .now() + testTimeInterval - .milliseconds(1)) {
-            eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
-        }
-        wait(for: [expectation], timeout: 1)
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(1))
+        eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
+        #expect(tappedModifierFlags == nil)
     }
+}
 
-    func testCleanModifierEvent() {
-        let eventHandler = ModifierEventHandler(cleanTimeInterval: testTimeInterval, cleanQueue: testQueue)
-        let expectation = XCTestExpectation(description: "Shift double tapped")
-        eventHandler.doubleTapped = { tappedModifierFlags in
-            XCTFail()
+private extension DispatchQueue {
+    func waitAfter(deadline: DispatchTime) async {
+        await withCheckedContinuation { continuation in
+            asyncAfter(deadline: deadline) {
+                continuation.resume()
+            }
         }
-        eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
-        eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        testQueue.asyncAfter(deadline: .now() + testTimeInterval + .milliseconds(1)) {
-            eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1)
     }
+}
+
+private extension DispatchTimeInterval {
+  var nanoseconds: UInt64 {
+      let now = DispatchTime.now()
+      let later = now.advanced(by: self)
+      return later.uptimeNanoseconds - now.uptimeNanoseconds
+  }
 }

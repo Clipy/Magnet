@@ -1,389 +1,464 @@
-// 
+//
 //  KeyComboTests.swift
 //
 //  MagnetTests
 //  GitHub: https://github.com/clipy
 //  HP: https://clipy-app.com
-// 
-//  Copyright © 2015-2020 Clipy Project.
+//
+//  Copyright © 2015 Clipy Project.
 //
 
-import XCTest
-import Sauce
 import Carbon
+import Cocoa
+import Sauce
+import Testing
 @testable import Magnet
 
-final class KeyComboTests: XCTestCase {
+// swiftlint:disable identifier_name file_length
+// swiftlint:disable:next type_body_length
+struct KeyComboTests {
+    private let functionModifierRawValue = Int(NSEvent.ModifierFlags.function.rawValue)
+
+    private func unarchiveKeyCombo(from data: Data) throws -> KeyCombo {
+        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+        unarchiver.requiresSecureCoding = false
+        let object = unarchiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as? KeyCombo
+        unarchiver.finishDecoding()
+        return try #require(object)
+    }
 
     // MARK: - Tests
-    func testFunctionInitializer() {
-        var keyCombo: KeyCombo?
+    @Test
+    func functionInitializer() {
         // F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
-        XCTAssertNotNil(keyCombo)
+        #expect(KeyCombo(key: .f1, cocoaModifiers: []) != nil)
         // Shift + Control + Comman + Option + F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.shift, .control, .command, .option])
-        XCTAssertNotNil(keyCombo)
+        #expect(KeyCombo(key: .f1, cocoaModifiers: [.shift, .control, .command, .option]) != nil)
     }
 
-    func testDoubledTapKeyComboInitializer() {
-        var keyCombo: KeyCombo?
+    @Test
+    func doubledTapKeyComboInitializer() {
         // Shift double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .shift)
-        XCTAssertNotNil(keyCombo)
+        #expect(KeyCombo(doubledCocoaModifiers: .shift) != nil)
         // Empty double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: [])
-        XCTAssertNil(keyCombo)
+        #expect(KeyCombo(doubledCocoaModifiers: []) == nil)
         // Shift + Control double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: [.shift, .command])
-        XCTAssertNil(keyCombo)
+        #expect(KeyCombo(doubledCocoaModifiers: [.shift, .command]) == nil)
         // Function double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: [.function])
-        XCTAssertNil(keyCombo)
+        #expect(KeyCombo(doubledCocoaModifiers: [.function]) == nil)
     }
 
-    func testDoubledTapKeyComboCharacter() {
-        var keyCombo: KeyCombo?
+    @Test
+    func doubledTapKeyComboCharacter() throws {
         // Shift double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .shift)
-        XCTAssertEqual(keyCombo?.characters, "")
+        let shiftDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .shift))
+        #expect(shiftDoubleTap.characters == "")
+
         // Control double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .control)
-        XCTAssertEqual(keyCombo?.characters, "")
+        let controlDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .control))
+        #expect(controlDoubleTap.characters == "")
+
         // Command double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .command)
-        XCTAssertEqual(keyCombo?.characters, "")
+        let commandDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .command))
+        #expect(commandDoubleTap.characters == "")
+
         // Option double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .option)
-        XCTAssertEqual(keyCombo?.characters, "")
+        let optionDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .option))
+        #expect(optionDoubleTap.characters == "")
     }
 
-    func testCharacter() {
-        var keyCombo: KeyCombo?
+    @Test
+    func character() throws {
         // Command + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command])
-        XCTAssertEqual(keyCombo?.characters, "a")
+        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        #expect(commandA.characters == "a")
+
         // Shift + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.characters, "A")
+        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        #expect(shiftA.characters == "A")
+
         // Option + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.characters, "å")
+        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        #expect(optionA.characters == "å")
+
         // Option + Shift + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.characters, "Å")
+        let optionShiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftA.characters == "Å")
+
         // Option + Shift + 1
-        keyCombo = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.characters, "⁄")
+        let optionShiftOne = try #require(KeyCombo(key: .one, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftOne.characters == "⁄")
+
         // Option + Shift + KeyPad 1
-        keyCombo = KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.characters, "1")
+        let optionShiftKeypadOne = try #require(KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftKeypadOne.characters == "1")
+
         // Option + ;
-        keyCombo = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.characters, "…")
+        let optionSemicolon = try #require(KeyCombo(key: .semicolon, cocoaModifiers: [.option]))
+        #expect(optionSemicolon.characters == "…")
+
         // Shift + F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.characters, "F1")
-        // Option double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .option)
-        XCTAssertEqual(keyCombo?.characters, "")
+        let shiftF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.shift]))
+        #expect(shiftF1.characters == "F1")
     }
 
-    func testKeyEquivalent() {
-        var keyCombo: KeyCombo?
+    @Test
+    func keyEquivalent() throws {
         // Command + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "a")
+        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        #expect(commandA.keyEquivalent == "a")
+
         // Shift + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "A")
+        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        #expect(shiftA.keyEquivalent == "A")
+
         // Option + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "a")
+        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        #expect(optionA.keyEquivalent == "a")
+
         // Option + Shift + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "A")
+        let optionShiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftA.keyEquivalent == "A")
+
         // Option + Shift + 1
-        keyCombo = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "1")
+        let optionShiftOne = try #require(KeyCombo(key: .one, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftOne.keyEquivalent == "1")
+
         // Option + Shift + Keypad 1
-        keyCombo = KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "1")
+        let optionShiftKeypadOne = try #require(KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift]))
+        #expect(optionShiftKeypadOne.keyEquivalent == "1")
+
         // Option + ;
-        keyCombo = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.keyEquivalent, ";")
+        let optionSemicolon = try #require(KeyCombo(key: .semicolon, cocoaModifiers: [.option]))
+        #expect(optionSemicolon.keyEquivalent == ";")
+
         // Shift + F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.keyEquivalent, "F1")
+        let shiftF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.shift]))
+        #expect(shiftF1.keyEquivalent == "F1")
+
         // Option double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .option)
-        XCTAssertEqual(keyCombo?.keyEquivalent, "")
+        let optionDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .option))
+        #expect(optionDoubleTap.keyEquivalent == "")
     }
 
-    func testKeyEquivalentModifierMaskString() {
-        var keyCombo: KeyCombo?
+    @Test
+    func keyEquivalentModifierMaskString() throws {
         // Shift + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⇧")
+        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        #expect(shiftA.keyEquivalentModifierMaskString == "⇧")
+
         // Control + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.control])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌃")
+        let controlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.control]))
+        #expect(controlA.keyEquivalentModifierMaskString == "⌃")
+
         // Command + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌘")
+        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        #expect(commandA.keyEquivalentModifierMaskString == "⌘")
+
         // Option + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.option])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌥")
+        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        #expect(optionA.keyEquivalentModifierMaskString == "⌥")
+
         // Shift + Control + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift, .control])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌃⇧")
+        let shiftControlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift, .control]))
+        #expect(shiftControlA.keyEquivalentModifierMaskString == "⌃⇧")
+
         // Shift + Control + Option + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.shift, .control, .option])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌃⌥⇧")
+        let shiftControlOptionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift, .control, .option]))
+        #expect(shiftControlOptionA.keyEquivalentModifierMaskString == "⌃⌥⇧")
+
         // Command + Option + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command, .option])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌥⌘")
+        let commandOptionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .option]))
+        #expect(commandOptionA.keyEquivalentModifierMaskString == "⌥⌘")
+
         // Command + Shift + Option + Control + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command, .shift, .option, .control])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌃⌥⇧⌘")
+        let commandShiftOptionControlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .shift, .option, .control]))
+        #expect(commandShiftOptionControlA.keyEquivalentModifierMaskString == "⌃⌥⇧⌘")
+
         // Command + Option + Function + CapsLock + NumericPad + Help + a
-        keyCombo = KeyCombo(key: .a, cocoaModifiers: [.command, .option, .function, .capsLock, .numericPad, .help])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌥⌘")
+        let commandOptionExtendedA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .option, .function, .capsLock, .numericPad, .help]))
+        #expect(commandOptionExtendedA.keyEquivalentModifierMaskString == "⌥⌘")
+
         // F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "")
+        let f1 = try #require(KeyCombo(key: .f1, cocoaModifiers: []))
+        #expect(f1.keyEquivalentModifierMaskString == "")
+
         // Command + F1
-        keyCombo = KeyCombo(key: .f1, cocoaModifiers: [.command])
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⌘")
+        let commandF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.command]))
+        #expect(commandF1.keyEquivalentModifierMaskString == "⌘")
+
         // Shift Double tap
-        keyCombo = KeyCombo(doubledCocoaModifiers: .shift)
-        XCTAssertEqual(keyCombo?.keyEquivalentModifierMaskString, "⇧")
+        let shiftDoubleTap = try #require(KeyCombo(doubledCocoaModifiers: .shift))
+        #expect(shiftDoubleTap.keyEquivalentModifierMaskString == "⇧")
     }
 
-    func testNSCodingMigrationV3_0() {
+    @Test
+    func nsCodingMigrationV3_0() throws {
         var oldKeyCombo: v2_0_0KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
         NSKeyedUnarchiver.setClass(KeyCombo.self, forClassName: "MagnetTests.v2_0_0KeyCombo")
+
         // Shift + v
         oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_ANSI_V, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedShiftV = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftV.key == .v)
+        #expect(migratedShiftV.modifiers == shiftKey)
+        #expect(migratedShiftV.doubledModifiers == false)
+
         // F3
-        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: functionModifierRawValue, doubledModifiers: false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedF3 = try #require(unarchivedKeyCombo)
+        #expect(migratedF3.key == .f3)
+        #expect(migratedF3.modifiers == functionModifierRawValue)
+        #expect(migratedF3.doubledModifiers == false)
+
         // Control double tap
         oldKeyCombo = v2_0_0KeyCombo(keyCode: 0, modifiers: controlKey, doubledModifiers: true)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedControlDoubleTap = try #require(unarchivedKeyCombo)
+        #expect(migratedControlDoubleTap.key == .a)
+        #expect(migratedControlDoubleTap.modifiers == controlKey)
+        #expect(migratedControlDoubleTap.doubledModifiers == true)
+
         // Shift + @
         oldKeyCombo = v2_0_0KeyCombo(keyCode: Int(Key.atSign.QWERTYKeyCode), modifiers: shiftKey, doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .leftBracket)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedShiftAtSign = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftAtSign.key == .leftBracket)
+        #expect(migratedShiftAtSign.modifiers == shiftKey)
+        #expect(migratedShiftAtSign.doubledModifiers == false)
     }
 
-    func testNSCodingMigrationV3_1() {
+    @Test
+    func nsCodingMigrationV3_1() throws {
         var oldKeyCombo: v3_1_0KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
         NSKeyedUnarchiver.setClass(KeyCombo.self, forClassName: "MagnetTests.v3_1_0KeyCombo")
+
         // Shift + v
         oldKeyCombo = v3_1_0KeyCombo(key: .v, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedShiftV = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftV.key == .v)
+        #expect(migratedShiftV.modifiers == shiftKey)
+        #expect(migratedShiftV.doubledModifiers == false)
+
         // F3
-        oldKeyCombo = v3_1_0KeyCombo(key: .f3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v3_1_0KeyCombo(key: .f3, modifiers: functionModifierRawValue, doubledModifiers: false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedF3 = try #require(unarchivedKeyCombo)
+        #expect(migratedF3.key == .f3)
+        #expect(migratedF3.modifiers == functionModifierRawValue)
+        #expect(migratedF3.doubledModifiers == false)
+
         // Control double tap
         oldKeyCombo = v3_1_0KeyCombo(key: .a, modifiers: controlKey, doubledModifiers: true)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedControlDoubleTap = try #require(unarchivedKeyCombo)
+        #expect(migratedControlDoubleTap.key == .a)
+        #expect(migratedControlDoubleTap.modifiers == controlKey)
+        #expect(migratedControlDoubleTap.doubledModifiers == true)
+
         // Shift + @
         oldKeyCombo = v3_1_0KeyCombo(key: .atSign, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: oldKeyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .leftBracket)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(oldKeyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let migratedShiftAtSign = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftAtSign.key == .leftBracket)
+        #expect(migratedShiftAtSign.modifiers == shiftKey)
+        #expect(migratedShiftAtSign.doubledModifiers == false)
     }
 
-    func testNSCoding() {
+    @Test
+    func nsCoding() throws {
         var keyCombo: KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
+
         // Shift + Control + c
         keyCombo = KeyCombo(key: .c, cocoaModifiers: [.shift, .control])
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(keyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let originalShiftControlC = try #require(keyCombo)
+        let unarchivedShiftControlC = try #require(unarchivedKeyCombo)
+        #expect(unarchivedShiftControlC == originalShiftControlC)
+
         // F1
         keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(keyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let originalF1 = try #require(keyCombo)
+        let unarchivedF1 = try #require(unarchivedKeyCombo)
+        #expect(unarchivedF1 == originalF1)
+
         // Option double tap
         keyCombo = KeyCombo(doubledCocoaModifiers: [.option])
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(keyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let originalOptionDoubleTap = try #require(keyCombo)
+        let unarchivedOptionDoubleTap = try #require(unarchivedKeyCombo)
+        #expect(unarchivedOptionDoubleTap == originalOptionDoubleTap)
+
         // Shift + @
         keyCombo = KeyCombo(key: .atSign, cocoaModifiers: [.shift])
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(keyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let originalShiftAtSign = try #require(keyCombo)
+        let unarchivedShiftAtSign = try #require(unarchivedKeyCombo)
+        #expect(unarchivedShiftAtSign == originalShiftAtSign)
+
         // Control + [
         keyCombo = KeyCombo(key: .leftBracket, cocoaModifiers: [.control])
-        archivedData = NSKeyedArchiver.archivedData(withRootObject: keyCombo!)
-        unarchivedKeyCombo = NSKeyedUnarchiver.unarchiveObject(with: archivedData!) as? KeyCombo
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try NSKeyedArchiver.archivedData(withRootObject: try #require(keyCombo), requiringSecureCoding: false)
+        unarchivedKeyCombo = try unarchiveKeyCombo(from: try #require(archivedData))
+        let originalControlLeftBracket = try #require(keyCombo)
+        let unarchivedControlLeftBracket = try #require(unarchivedKeyCombo)
+        #expect(unarchivedControlLeftBracket == originalControlLeftBracket)
     }
 
-    func testCodableMigrationV3_0() throws {
+    @Test
+    func codableMigrationV3_0() throws {
         var oldKeyCombo: v2_0_0KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
+
         // Shift + v
         oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_ANSI_V, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedShiftV = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftV.key == .v)
+        #expect(migratedShiftV.modifiers == shiftKey)
+        #expect(migratedShiftV.doubledModifiers == false)
+
         // F3
-        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v2_0_0KeyCombo(keyCode: kVK_F3, modifiers: functionModifierRawValue, doubledModifiers: false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedF3 = try #require(unarchivedKeyCombo)
+        #expect(migratedF3.key == .f3)
+        #expect(migratedF3.modifiers == functionModifierRawValue)
+        #expect(migratedF3.doubledModifiers == false)
+
         // Control double tap
         oldKeyCombo = v2_0_0KeyCombo(keyCode: 0, modifiers: controlKey, doubledModifiers: true)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedControlDoubleTap = try #require(unarchivedKeyCombo)
+        #expect(migratedControlDoubleTap.key == .a)
+        #expect(migratedControlDoubleTap.modifiers == controlKey)
+        #expect(migratedControlDoubleTap.doubledModifiers == true)
+
         // Shift + @
         oldKeyCombo = v2_0_0KeyCombo(keyCode: Int(Key.atSign.QWERTYKeyCode), modifiers: shiftKey, doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .leftBracket)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedShiftAtSign = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftAtSign.key == .leftBracket)
+        #expect(migratedShiftAtSign.modifiers == shiftKey)
+        #expect(migratedShiftAtSign.doubledModifiers == false)
     }
 
-    func testCodableMigrationV3_1() throws {
+    @Test
+    func codableMigrationV3_1() throws {
         var oldKeyCombo: v3_1_0KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
+
         // Shift + v
         oldKeyCombo = v3_1_0KeyCombo(key: .v, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .v)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedShiftV = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftV.key == .v)
+        #expect(migratedShiftV.modifiers == shiftKey)
+        #expect(migratedShiftV.doubledModifiers == false)
+
         // F3
-        oldKeyCombo = v3_1_0KeyCombo(key: .f3, modifiers: Int(NSEvent.ModifierFlags.function.rawValue), doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .f3)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, Int(NSEvent.ModifierFlags.function.rawValue))
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        oldKeyCombo = v3_1_0KeyCombo(key: .f3, modifiers: functionModifierRawValue, doubledModifiers: false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedF3 = try #require(unarchivedKeyCombo)
+        #expect(migratedF3.key == .f3)
+        #expect(migratedF3.modifiers == functionModifierRawValue)
+        #expect(migratedF3.doubledModifiers == false)
+
         // Control double tap
         oldKeyCombo = v3_1_0KeyCombo(key: .a, modifiers: controlKey, doubledModifiers: true)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .a)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, controlKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, true)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedControlDoubleTap = try #require(unarchivedKeyCombo)
+        #expect(migratedControlDoubleTap.key == .a)
+        #expect(migratedControlDoubleTap.modifiers == controlKey)
+        #expect(migratedControlDoubleTap.doubledModifiers == true)
+
         // Shift + @
         oldKeyCombo = v3_1_0KeyCombo(key: .atSign, modifiers: shiftKey, doubledModifiers: false)
-        archivedData = try JSONEncoder().encode(oldKeyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(unarchivedKeyCombo?.key, .leftBracket)
-        XCTAssertEqual(unarchivedKeyCombo?.modifiers, shiftKey)
-        XCTAssertEqual(unarchivedKeyCombo?.doubledModifiers, false)
+        archivedData = try JSONEncoder().encode(try #require(oldKeyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let migratedShiftAtSign = try #require(unarchivedKeyCombo)
+        #expect(migratedShiftAtSign.key == .leftBracket)
+        #expect(migratedShiftAtSign.modifiers == shiftKey)
+        #expect(migratedShiftAtSign.doubledModifiers == false)
     }
 
-    func testCodable() throws {
+    @Test
+    func codable() throws {
         var keyCombo: KeyCombo?
         var archivedData: Data?
         var unarchivedKeyCombo: KeyCombo?
+
         // Shift + Control + c
         keyCombo = KeyCombo(key: .c, cocoaModifiers: [.shift, .control])
-        archivedData = try JSONEncoder().encode(keyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try JSONEncoder().encode(try #require(keyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let decodedShiftControlC = try #require(unarchivedKeyCombo)
+        let encodedShiftControlC = try #require(keyCombo)
+        #expect(decodedShiftControlC == encodedShiftControlC)
+
         // F1
         keyCombo = KeyCombo(key: .f1, cocoaModifiers: [])
-        archivedData = try JSONEncoder().encode(keyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try JSONEncoder().encode(try #require(keyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let decodedF1 = try #require(unarchivedKeyCombo)
+        let encodedF1 = try #require(keyCombo)
+        #expect(decodedF1 == encodedF1)
+
         // Option double tap
         keyCombo = KeyCombo(doubledCocoaModifiers: [.option])
-        archivedData = try JSONEncoder().encode(keyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try JSONEncoder().encode(try #require(keyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let decodedOptionDoubleTap = try #require(unarchivedKeyCombo)
+        let encodedOptionDoubleTap = try #require(keyCombo)
+        #expect(decodedOptionDoubleTap == encodedOptionDoubleTap)
+
         // Shift + @
         keyCombo = KeyCombo(key: .atSign, cocoaModifiers: [.shift])
-        archivedData = try JSONEncoder().encode(keyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try JSONEncoder().encode(try #require(keyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let decodedShiftAtSign = try #require(unarchivedKeyCombo)
+        let encodedShiftAtSign = try #require(keyCombo)
+        #expect(decodedShiftAtSign == encodedShiftAtSign)
+
         // Control + [
         keyCombo = KeyCombo(key: .leftBracket, cocoaModifiers: [.control])
-        archivedData = try JSONEncoder().encode(keyCombo!)
-        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: archivedData!)
-        XCTAssertNotNil(unarchivedKeyCombo)
-        XCTAssertEqual(keyCombo, unarchivedKeyCombo)
+        archivedData = try JSONEncoder().encode(try #require(keyCombo))
+        unarchivedKeyCombo = try JSONDecoder().decode(KeyCombo.self, from: try #require(archivedData))
+        let decodedControlLeftBracket = try #require(unarchivedKeyCombo)
+        let encodedControlLeftBracket = try #require(keyCombo)
+        #expect(decodedControlLeftBracket == encodedControlLeftBracket)
     }
-
 }
+
+// swiftlint:enable identifier_name
