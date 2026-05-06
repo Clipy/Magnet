@@ -101,7 +101,7 @@ struct ModifierEventHandlerTests {
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        try await Task.sleep(nanoseconds: testTimeInterval.nanoseconds - DispatchTimeInterval.milliseconds(50).nanoseconds)
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval - .milliseconds(1))
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
         #expect(tappedModifierFlags == .shift)
     }
@@ -115,9 +115,19 @@ struct ModifierEventHandlerTests {
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        try await Task.sleep(nanoseconds: testTimeInterval.nanoseconds + DispatchTimeInterval.milliseconds(50).nanoseconds)
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(1))
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
         #expect(tappedModifierFlags == nil)
+    }
+}
+
+private extension DispatchQueue {
+    func waitAfter(deadline: DispatchTime) async {
+        await withCheckedContinuation { continuation in
+            asyncAfter(deadline: deadline) {
+                continuation.resume()
+            }
+        }
     }
 }
 
