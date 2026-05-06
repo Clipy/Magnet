@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // ⌘ + Control + B
-        guard let keyCombo = KeyCombo(key: .b, cocoaModifiers: [.command, .control]) else { return }
+        let keyCombo = KeyCombo(key: .b, cocoaModifiers: [.command, .control])
         let hotKey = HotKey(identifier: "CommandControlB",
                             keyCombo: keyCombo,
                             target: self,
@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hotKey.register()
 
         // Shift + Control + A
-        guard let keyCombo2 = KeyCombo(key: .a, cocoaModifiers: [.shift, .control]) else { return }
+        let keyCombo2 = KeyCombo(key: .a, cocoaModifiers: [.shift, .control])
         let hotKey2 = HotKey(identifier: "ShiftControlA",
                              keyCombo: keyCombo2,
                              target: self,

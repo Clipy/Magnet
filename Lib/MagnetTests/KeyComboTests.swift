@@ -29,14 +29,6 @@ struct KeyComboTests {
 
     // MARK: - Tests
     @Test
-    func functionInitializer() {
-        // F1
-        #expect(KeyCombo(key: .f1, cocoaModifiers: []) != nil)
-        // Shift + Control + Comman + Option + F1
-        #expect(KeyCombo(key: .f1, cocoaModifiers: [.shift, .control, .command, .option]) != nil)
-    }
-
-    @Test
     func doubledTapKeyComboInitializer() {
         // Shift double tap
         #expect(KeyCombo(doubledCocoaModifiers: .shift) != nil)
@@ -70,70 +62,70 @@ struct KeyComboTests {
     @Test
     func character() throws {
         // Command + a
-        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        let commandA = KeyCombo(key: .a, cocoaModifiers: [.command])
         #expect(commandA.characters == "a")
 
         // Shift + a
-        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        let shiftA = KeyCombo(key: .a, cocoaModifiers: [.shift])
         #expect(shiftA.characters == "A")
 
         // Option + a
-        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        let optionA = KeyCombo(key: .a, cocoaModifiers: [.option])
         #expect(optionA.characters == "å")
 
         // Option + Shift + a
-        let optionShiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option, .shift]))
+        let optionShiftA = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
         #expect(optionShiftA.characters == "Å")
 
         // Option + Shift + 1
-        let optionShiftOne = try #require(KeyCombo(key: .one, cocoaModifiers: [.option, .shift]))
+        let optionShiftOne = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
         #expect(optionShiftOne.characters == "⁄")
 
         // Option + Shift + KeyPad 1
-        let optionShiftKeypadOne = try #require(KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift]))
+        let optionShiftKeypadOne = KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift])
         #expect(optionShiftKeypadOne.characters == "1")
 
         // Option + ;
-        let optionSemicolon = try #require(KeyCombo(key: .semicolon, cocoaModifiers: [.option]))
+        let optionSemicolon = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
         #expect(optionSemicolon.characters == "…")
 
         // Shift + F1
-        let shiftF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.shift]))
+        let shiftF1 = KeyCombo(key: .f1, cocoaModifiers: [.shift])
         #expect(shiftF1.characters == "F1")
     }
 
     @Test
     func keyEquivalent() throws {
         // Command + a
-        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        let commandA = KeyCombo(key: .a, cocoaModifiers: [.command])
         #expect(commandA.keyEquivalent == "a")
 
         // Shift + a
-        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        let shiftA = KeyCombo(key: .a, cocoaModifiers: [.shift])
         #expect(shiftA.keyEquivalent == "A")
 
         // Option + a
-        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        let optionA = KeyCombo(key: .a, cocoaModifiers: [.option])
         #expect(optionA.keyEquivalent == "a")
 
         // Option + Shift + a
-        let optionShiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option, .shift]))
+        let optionShiftA = KeyCombo(key: .a, cocoaModifiers: [.option, .shift])
         #expect(optionShiftA.keyEquivalent == "A")
 
         // Option + Shift + 1
-        let optionShiftOne = try #require(KeyCombo(key: .one, cocoaModifiers: [.option, .shift]))
+        let optionShiftOne = KeyCombo(key: .one, cocoaModifiers: [.option, .shift])
         #expect(optionShiftOne.keyEquivalent == "1")
 
         // Option + Shift + Keypad 1
-        let optionShiftKeypadOne = try #require(KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift]))
+        let optionShiftKeypadOne = KeyCombo(key: .keypadOne, cocoaModifiers: [.option, .shift])
         #expect(optionShiftKeypadOne.keyEquivalent == "1")
 
         // Option + ;
-        let optionSemicolon = try #require(KeyCombo(key: .semicolon, cocoaModifiers: [.option]))
+        let optionSemicolon = KeyCombo(key: .semicolon, cocoaModifiers: [.option])
         #expect(optionSemicolon.keyEquivalent == ";")
 
         // Shift + F1
-        let shiftF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.shift]))
+        let shiftF1 = KeyCombo(key: .f1, cocoaModifiers: [.shift])
         #expect(shiftF1.keyEquivalent == "F1")
 
         // Option double tap
@@ -144,47 +136,47 @@ struct KeyComboTests {
     @Test
     func keyEquivalentModifierMaskString() throws {
         // Shift + a
-        let shiftA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift]))
+        let shiftA = KeyCombo(key: .a, cocoaModifiers: [.shift])
         #expect(shiftA.keyEquivalentModifierMaskString == "⇧")
 
         // Control + a
-        let controlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.control]))
+        let controlA = KeyCombo(key: .a, cocoaModifiers: [.control])
         #expect(controlA.keyEquivalentModifierMaskString == "⌃")
 
         // Command + a
-        let commandA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command]))
+        let commandA = KeyCombo(key: .a, cocoaModifiers: [.command])
         #expect(commandA.keyEquivalentModifierMaskString == "⌘")
 
         // Option + a
-        let optionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.option]))
+        let optionA = KeyCombo(key: .a, cocoaModifiers: [.option])
         #expect(optionA.keyEquivalentModifierMaskString == "⌥")
 
         // Shift + Control + a
-        let shiftControlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift, .control]))
+        let shiftControlA = KeyCombo(key: .a, cocoaModifiers: [.shift, .control])
         #expect(shiftControlA.keyEquivalentModifierMaskString == "⌃⇧")
 
         // Shift + Control + Option + a
-        let shiftControlOptionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.shift, .control, .option]))
+        let shiftControlOptionA = KeyCombo(key: .a, cocoaModifiers: [.shift, .control, .option])
         #expect(shiftControlOptionA.keyEquivalentModifierMaskString == "⌃⌥⇧")
 
         // Command + Option + a
-        let commandOptionA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .option]))
+        let commandOptionA = KeyCombo(key: .a, cocoaModifiers: [.command, .option])
         #expect(commandOptionA.keyEquivalentModifierMaskString == "⌥⌘")
 
         // Command + Shift + Option + Control + a
-        let commandShiftOptionControlA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .shift, .option, .control]))
+        let commandShiftOptionControlA = KeyCombo(key: .a, cocoaModifiers: [.command, .shift, .option, .control])
         #expect(commandShiftOptionControlA.keyEquivalentModifierMaskString == "⌃⌥⇧⌘")
 
         // Command + Option + Function + CapsLock + NumericPad + Help + a
-        let commandOptionExtendedA = try #require(KeyCombo(key: .a, cocoaModifiers: [.command, .option, .function, .capsLock, .numericPad, .help]))
+        let commandOptionExtendedA = KeyCombo(key: .a, cocoaModifiers: [.command, .option, .function, .capsLock, .numericPad, .help])
         #expect(commandOptionExtendedA.keyEquivalentModifierMaskString == "⌥⌘")
 
         // F1
-        let f1 = try #require(KeyCombo(key: .f1, cocoaModifiers: []))
+        let f1 = KeyCombo(key: .f1, cocoaModifiers: [])
         #expect(f1.keyEquivalentModifierMaskString == "")
 
         // Command + F1
-        let commandF1 = try #require(KeyCombo(key: .f1, cocoaModifiers: [.command]))
+        let commandF1 = KeyCombo(key: .f1, cocoaModifiers: [.command])
         #expect(commandF1.keyEquivalentModifierMaskString == "⌘")
 
         // Shift Double tap

@@ -13,10 +13,6 @@ import Carbon
 import Sauce
 
 public extension NSEvent.ModifierFlags {
-    var containsSupportModifiers: Bool {
-        return contains(.command) || contains(.option) || contains(.control) || contains(.shift) || contains(.function)
-    }
-
     var isSingleFlags: Bool {
         let commandSelected = contains(.command)
         let optionSelected = contains(.option)
