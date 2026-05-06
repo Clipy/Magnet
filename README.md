@@ -2,25 +2,10 @@
 ![CI](https://github.com/Clipy/Magnet/workflows/Xcode-Build/badge.svg)
 [![Release version](https://img.shields.io/github/release/Clipy/Magnet.svg)](https://github.com/Clipy/Magnet/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/Clipy/Magnet.svg)](https://github.com/Clipy/Magnet/blob/master/LICENSE)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Version](https://img.shields.io/cocoapods/v/Magnet.svg)](http://cocoadocs.org/docsets/Magnet)
-[![Platform](https://img.shields.io/cocoapods/p/Magnet.svg)](http://cocoadocs.org/docsets/Magnet)
-[![SPM supported](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager)
 
 Customize global hotkeys in macOS. Supports usual hotkey and double tap hotkey like Alfred.app.
 
 Also supports sandbox application.
-
-## Usage
-### CocoaPods
-```
-pod 'Magnet'
-```
-
-### Carthage
-```
-github "Clipy/Magnet"
-```
 
 ## Upgrading from Magnet v2.x to v3.x
 See [Upgrading from Magnet v2.x](/Documentation/Upgrading_Magnet_2.md)
