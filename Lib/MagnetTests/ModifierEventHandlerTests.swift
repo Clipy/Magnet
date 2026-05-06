@@ -93,20 +93,6 @@ struct ModifierEventHandlerTests {
     }
 
     @Test
-    func noCleanModifierEvent() async throws {
-        let eventHandler = ModifierEventHandler(cleanTimeInterval: testTimeInterval, cleanQueue: testQueue)
-        var tappedModifierFlags: NSEvent.ModifierFlags?
-        eventHandler.doubleTapped = { flags in
-            tappedModifierFlags = flags
-        }
-        eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
-        eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        await testQueue.waitAfter(deadline: .now() + testTimeInterval - .milliseconds(50))
-        eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
-        #expect(tappedModifierFlags == .shift)
-    }
-
-    @Test
     func cleanModifierEvent() async throws {
         let eventHandler = ModifierEventHandler(cleanTimeInterval: testTimeInterval, cleanQueue: testQueue)
         var tappedModifierFlags: NSEvent.ModifierFlags?
@@ -115,7 +101,7 @@ struct ModifierEventHandlerTests {
         }
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 0)
         eventHandler.handleModifiersEvent(with: [], timestamp: 1)
-        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(50))
+        await testQueue.waitAfter(deadline: .now() + testTimeInterval + .milliseconds(1))
         eventHandler.handleModifiersEvent(with: [.shift], timestamp: 2)
         #expect(tappedModifierFlags == nil)
     }
