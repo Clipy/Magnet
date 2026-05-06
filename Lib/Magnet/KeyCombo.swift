@@ -54,11 +54,11 @@ open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
         self.init(key: key, cocoaModifiers: cocoaModifiers)
     }
 
-    public convenience init?(key: Key, carbonModifiers: Int) {
+    public convenience init(key: Key, carbonModifiers: Int) {
         self.init(key: key, cocoaModifiers: NSEvent.ModifierFlags(carbonModifiers: carbonModifiers))
     }
 
-    public init?(key: Key, cocoaModifiers: NSEvent.ModifierFlags) {
+    public init(key: Key, cocoaModifiers: NSEvent.ModifierFlags) {
         var filterdCocoaModifiers = cocoaModifiers.filterUnsupportModifiers()
         // In the case of the function key, will need to add the modifier manually
         if key.isFunctionKey {
