@@ -14,6 +14,8 @@ import Sauce
 import Testing
 @testable import Magnet
 
+// swiftlint:disable identifier_name
+// swiftlint:disable:next type_body_length
 struct KeyComboTests {
     private let functionModifierRawValue = Int(NSEvent.ModifierFlags.function.rawValue)
 
@@ -458,3 +460,5 @@ struct KeyComboTests {
         #expect(decodedControlLeftBracket == encodedControlLeftBracket)
     }
 }
+
+// swiftlint:enable identifier_name
