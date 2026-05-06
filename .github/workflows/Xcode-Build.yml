@@ -5,15 +5,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-12, macos-13]
-        xcode: ['14.2', '15.0']
+        os: [macos-15, macos-26]
+        xcode: ['16.4', '26.2']
         exclude:
-          - os: macos-12
-            xcode: '15.0'
+          - os: macos-26
+            xcode: '16.4'
     env:
       DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         submodules: recursive
     - name: Build and Test
