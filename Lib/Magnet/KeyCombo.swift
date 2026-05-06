@@ -12,7 +12,7 @@ import Cocoa
 import Carbon
 import Sauce
 
-public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
+open class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 
     // MARK: - Properties
     public let key: Key
@@ -28,7 +28,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var keyEquivalent: String {
         guard !doubledModifiers else { return "" }
-        let keyCode = Int(Sauce.shared.keyCode(for: key))
+        let keyCode = Int(Sauce.shared.keyCode(for: key, carbonModifiers: modifiers))
         guard key.isAlphabet else { return Sauce.shared.character(for: keyCode, cocoaModifiers: []) ?? "" }
         let modifiers = keyEquivalentModifierMask.filterNotShiftModifiers()
         return Sauce.shared.character(for: keyCode, cocoaModifiers: modifiers) ?? ""
@@ -41,7 +41,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
     public var currentKeyCode: CGKeyCode {
         guard !doubledModifiers else { return 0 }
-        return Sauce.shared.keyCode(for: key)
+        return Sauce.shared.keyCode(for: key, carbonModifiers: modifiers)
     }
 
     // MARK: - Initialize
@@ -91,7 +91,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     // MARK: - NSCoding
-    public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         self.doubledModifiers = aDecoder.decodeBool(forKey: CodingKeys.doubledModifiers.rawValue)
         self.modifiers = aDecoder.decodeInteger(forKey: CodingKeys.modifiers.rawValue)
         guard !doubledModifiers else {
@@ -123,7 +123,7 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
     }
 
     // MARK: - Codable
-    public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.doubledModifiers = try container.decode(Bool.self, forKey: .doubledModifiers)
         self.modifiers = try container.decode(Int.self, forKey: .modifiers)
@@ -174,6 +174,6 @@ public final class KeyCombo: NSObject, NSCopying, NSCoding, Codable {
 }
 
 // MARK: - Error
-public extension KeyCombo {
-    struct InitializeError: Error {}
+extension KeyCombo {
+    public struct InitializeError: Error {}
 }

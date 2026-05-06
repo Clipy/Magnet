@@ -1,67 +1,43 @@
 name: Danger
 
-on: pull_request
+on: 
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   danger:
-
     runs-on: macos-latest
-
+    # https://github.com/danger/danger/issues/1103
+    if: (github.event.pull_request.head.repo.fork == false)
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         submodules: recursive
         fetch-depth: 0
-
     - name: Setup ruby
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
-        ruby-version: '2.6'
-
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_11.4.app
-
-    - name: Cache RubyGems
-      uses: actions/cache@v1
+        ruby-version: '3.4'
+        bundler-cache: true
+    - name: Cache Mint
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+        path: .mint
+        key: ${{ runner.os }}-mint-${{ env.SWIFTLINT_VERSION }}
         restore-keys: |
-          ${{ runner.os }}-gem-
-
-    - name: Cache Mint Builds
-      uses: actions/cache@v1
-      with:
-        path: ${{ env.MINT_PATH }}
-        key: ${{ runner.os }}-mint-build-${{ env.SWIFTLINT_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-mint-build-
-
-    - name: Cache Mint Links
-      uses: actions/cache@v1
-      with:
-        path: ${{ env.MINT_LINK_PATH }}
-        key: ${{ runner.os }}-mint-link-${{ env.SWIFTLINT_VERSION }}
-        restore-keys: |
-          ${{ runner.os }}-mint-link-
-
-    - name: Bundle install
-      run: |
-        gem install bundler
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
-
+          ${{ runner.os }}-mint-
     - name: Install Mint and Packages
       run: |
         brew install mint
         mint install realm/SwiftLint@${{ env.SWIFTLINT_VERSION }}
-
     - name: Run Danger
       run: bundle exec danger
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     env:
-      MINT_PATH: ${{ github.workspace }}/mint
-      MINT_LINK_PATH: ${{ github.workspace }}/mint/bin
-      SWIFTLINT_VERSION: 0.39.1
+      MINT_PATH: .mint/lib
+      MINT_LINK_PATH: .mint/bin
+      SWIFTLINT_VERSION: 0.63.2
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer

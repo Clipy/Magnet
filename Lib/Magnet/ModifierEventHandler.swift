@@ -10,7 +10,7 @@
 
 import Cocoa
 
-public final class ModifierEventHandler {
+open class ModifierEventHandler {
 
     // MARK: - Properties
     public var doubleTapped: ((NSEvent.ModifierFlags) -> Void)?
@@ -30,8 +30,8 @@ public final class ModifierEventHandler {
 }
 
 // MARK: - Handling
-public extension ModifierEventHandler {
-    func handleModifiersEvent(with modifierFlags: NSEvent.ModifierFlags, timestamp: TimeInterval) {
+extension ModifierEventHandler {
+    public func handleModifiersEvent(with modifierFlags: NSEvent.ModifierFlags, timestamp: TimeInterval) {
         guard lastHandledEventTimestamp != timestamp else { return }
         lastHandledEventTimestamp = timestamp
 
