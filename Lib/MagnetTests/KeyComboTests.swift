@@ -14,7 +14,7 @@ import Sauce
 import Testing
 @testable import Magnet
 
-// swiftlint:disable identifier_name
+// swiftlint:disable identifier_name file_length
 // swiftlint:disable:next type_body_length
 struct KeyComboTests {
     private let functionModifierRawValue = Int(NSEvent.ModifierFlags.function.rawValue)
