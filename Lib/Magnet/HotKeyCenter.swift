@@ -27,7 +27,7 @@ open class HotKeyCenter {
         self.notificationCenter = notificationCenter
         installHotKeyPressedEventHandler()
         installModifiersChangedEventHandlerIfNeeded()
-        observeKeyboardLayoutChanges()
+        observeKeyboardKeyCodesChanges()
         observeApplicationTerminate()
     }
 
@@ -111,7 +111,7 @@ extension HotKeyCenter {
                                        object: nil)
     }
 
-    private func observeKeyboardLayoutChanges() {
+    private func observeKeyboardKeyCodesChanges() {
         notificationCenter.addObserver(self,
                                        selector: #selector(HotKeyCenter.selectedKeyboardKeyCodesChanged),
                                        name: .SauceSelectedKeyboardKeyCodesChanged,
@@ -124,7 +124,7 @@ extension HotKeyCenter {
 
     @objc func selectedKeyboardKeyCodesChanged() {
         hotKeys.values
-            .filter { $0.autoReRegisterOnKeyboardLayoutChange }
+            .filter { $0.autoReRegisterOnKeyboardKeyCodesChange }
             .filter { !$0.keyCombo.doubledModifiers }
             .forEach { hotKey in
                 let currentKeyCode = hotKey.keyCombo.currentKeyCode

@@ -19,17 +19,17 @@ open class HotKey: NSObject {
     public let target: AnyObject?
     public let action: Selector?
     public let actionQueue: ActionQueue
-    /// When enabled, Magnet auto re-registers this hot key after keyboard layout changes
-    /// if the KeyCode that was registered no longer matches the KeyCode for the
-    /// current layout.
+    /// When enabled, Magnet auto re-registers this hot key after keyboard key code
+    /// changes if the KeyCode that was registered no longer matches the KeyCode for
+    /// the current input source.
     ///
     /// This is useful because macOS registers the layout-specific KeyCode that is
     /// current at registration time.
     /// For example, registering `v` uses KeyCode `9` on a QWERTY layout,
-    /// but KeyCode `47` on a Dvorak layout. If the keyboard
-    /// layout changes later, the registered hot key may no longer point to the
-    /// intended physical key unless it is registered again.
-    public let autoReRegisterOnKeyboardLayoutChange: Bool
+    /// but KeyCode `47` on a Dvorak layout. If the selected keyboard key codes
+    /// change later, the registered hot key may no longer point to the intended
+    /// physical key unless it is registered again.
+    public let autoReRegisterOnKeyboardKeyCodesChange: Bool
 
     var hotKeyId: UInt32?
     var hotKeyRef: EventHotKeyRef?
@@ -59,7 +59,7 @@ open class HotKey: NSObject {
         target: AnyObject,
         action: Selector,
         actionQueue: ActionQueue = .main,
-        autoReRegisterOnKeyboardLayoutChange: Bool = false
+        autoReRegisterOnKeyboardKeyCodesChange: Bool = false
     ) {
         self.identifier = identifier
         self.keyCombo = keyCombo
@@ -67,7 +67,7 @@ open class HotKey: NSObject {
         self.target = target
         self.action = action
         self.actionQueue = actionQueue
-        self.autoReRegisterOnKeyboardLayoutChange = autoReRegisterOnKeyboardLayoutChange
+        self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
         super.init()
     }
 
@@ -75,7 +75,7 @@ open class HotKey: NSObject {
         identifier: String,
         keyCombo: KeyCombo,
         actionQueue: ActionQueue = .main,
-        autoReRegisterOnKeyboardLayoutChange: Bool = false,
+        autoReRegisterOnKeyboardKeyCodesChange: Bool = false,
         handler: @escaping ((HotKey) -> Void)
     ) {
         self.identifier = identifier
@@ -84,7 +84,7 @@ open class HotKey: NSObject {
         self.target = nil
         self.action = nil
         self.actionQueue = actionQueue
-        self.autoReRegisterOnKeyboardLayoutChange = autoReRegisterOnKeyboardLayoutChange
+        self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
         super.init()
     }
 }
@@ -127,7 +127,7 @@ extension HotKey {
 
         return self.identifier == hotKey.identifier &&
                self.keyCombo == hotKey.keyCombo &&
-               self.autoReRegisterOnKeyboardLayoutChange == hotKey.autoReRegisterOnKeyboardLayoutChange &&
+               self.autoReRegisterOnKeyboardKeyCodesChange == hotKey.autoReRegisterOnKeyboardKeyCodesChange &&
                self.hotKeyId == hotKey.hotKeyId &&
                self.hotKeyRef == hotKey.hotKeyRef
     }

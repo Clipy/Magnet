@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             keyCombo: keyCombo,
                             target: self,
                             action: #selector(AppDelegate.tappedHotKey),
-                            autoReRegisterOnKeyboardLayoutChange: true)
+                            autoReRegisterOnKeyboardKeyCodesChange: true)
         hotKey.register()
 
         // Shift + Control + A
