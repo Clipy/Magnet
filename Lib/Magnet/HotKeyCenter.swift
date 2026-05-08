@@ -10,9 +10,9 @@
 
 import Cocoa
 import Carbon
+import Sauce
 
 open class HotKeyCenter {
-
     // MARK: - Properties
     public static let shared = HotKeyCenter()
 
@@ -27,16 +27,16 @@ open class HotKeyCenter {
         self.notificationCenter = notificationCenter
         installHotKeyPressedEventHandler()
         installModifiersChangedEventHandlerIfNeeded()
+        observeKeyboardLayoutChanges()
         observeApplicationTerminate()
     }
 
     deinit {
         notificationCenter.removeObserver(self)
     }
-
 }
 
-// MARK: - Register & Unregister
+// MARK: - Register
 extension HotKeyCenter {
     @discardableResult
     public func register(with hotKey: HotKey) -> Bool {
@@ -45,46 +45,40 @@ extension HotKeyCenter {
 
         hotKeys[hotKey.identifier] = hotKey
         guard !hotKey.keyCombo.doubledModifiers else { return true }
-        /*
-         *  Normal macOS shortcut
-         *
-         *  Discussion:
-         *    When registering a hotkey, a KeyCode that conforms to the
-         *    keyboard layout at the time of registration is registered.
-         *    To register a `v` on the QWERTY keyboard, `9` is registered,
-         *    and to register a `v` on the Dvorak keyboard, `47` is registered.
-         *    Therefore, if you change the keyboard layout after registering
-         *    a hot key, the hot key is not assigned to the correct key.
-         *    To solve this problem, you need to re-register the hotkeys
-         *    when you change the layout, but it's not supported by the
-         *    Apple Genuine app either, so it's not supported now.
-         */
+        guard registerEvent(with: hotKey) else {
+            unregister(with: hotKey)
+            return false
+        }
+
+        return true
+    }
+
+    @discardableResult
+    private func registerEvent(with hotKey: HotKey) -> Bool {
         let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
         var carbonHotKey: EventHotKeyRef?
-        let error = RegisterEventHotKey(UInt32(hotKey.keyCombo.currentKeyCode),
+        let currentKeyCode = hotKey.keyCombo.currentKeyCode
+        let error = RegisterEventHotKey(UInt32(currentKeyCode),
                                         UInt32(hotKey.keyCombo.modifiers),
                                         hotKeyId,
                                         GetEventDispatcherTarget(),
                                         0,
                                         &carbonHotKey)
-        guard error == noErr else {
-            unregister(with: hotKey)
-            return false
-        }
+        guard error == noErr else { return false }
         hotKey.hotKeyId = hotKeyId.id
         hotKey.hotKeyRef = carbonHotKey
+        hotKey.registeredKeyCode = currentKeyCode
         hotKeyCount += 1
 
         return true
     }
+}
 
+// MARK: - Unregister
+extension HotKeyCenter {
     public func unregister(with hotKey: HotKey) {
-        if let carbonHotKey = hotKey.hotKeyRef {
-            UnregisterEventHotKey(carbonHotKey)
-        }
+        unregisterEvent(with: hotKey)
         hotKeys.removeValue(forKey: hotKey.identifier)
-        hotKey.hotKeyId = nil
-        hotKey.hotKeyRef = nil
     }
 
     @discardableResult
@@ -97,9 +91,18 @@ extension HotKeyCenter {
     public func unregisterAll() {
         hotKeys.forEach { unregister(with: $1) }
     }
+
+    private func unregisterEvent(with hotKey: HotKey) {
+        if let carbonHotKey = hotKey.hotKeyRef {
+            UnregisterEventHotKey(carbonHotKey)
+        }
+        hotKey.hotKeyId = nil
+        hotKey.hotKeyRef = nil
+        hotKey.registeredKeyCode = nil
+    }
 }
 
-// MARK: - Terminate
+// MARK: - Notifications
 extension HotKeyCenter {
     private func observeApplicationTerminate() {
         notificationCenter.addObserver(self,
@@ -108,8 +111,27 @@ extension HotKeyCenter {
                                        object: nil)
     }
 
+    private func observeKeyboardLayoutChanges() {
+        notificationCenter.addObserver(self,
+                                       selector: #selector(HotKeyCenter.selectedKeyboardKeyCodesChanged),
+                                       name: .SauceSelectedKeyboardKeyCodesChanged,
+                                       object: nil)
+    }
+
     @objc func applicationWillTerminate() {
         unregisterAll()
+    }
+
+    @objc func selectedKeyboardKeyCodesChanged() {
+        hotKeys.values
+            .filter { $0.autoReRegisterOnKeyboardLayoutChange }
+            .filter { !$0.keyCombo.doubledModifiers }
+            .forEach { hotKey in
+                let currentKeyCode = hotKey.keyCombo.currentKeyCode
+                guard hotKey.registeredKeyCode != currentKeyCode else { return }
+                unregisterEvent(with: hotKey)
+                registerEvent(with: hotKey)
+            }
     }
 }
 
