@@ -12,7 +12,6 @@ import Cocoa
 import Carbon
 
 open class HotKey: NSObject {
-
     // MARK: - Properties
     public let identifier: String
     public let keyCombo: KeyCombo
@@ -20,9 +19,21 @@ open class HotKey: NSObject {
     public let target: AnyObject?
     public let action: Selector?
     public let actionQueue: ActionQueue
+    /// When enabled, Magnet auto re-registers this hot key after keyboard key code
+    /// changes if the KeyCode that was registered no longer matches the KeyCode for
+    /// the current input source.
+    ///
+    /// This is useful because macOS registers the layout-specific KeyCode that is
+    /// current at registration time.
+    /// For example, registering `v` uses KeyCode `9` on a QWERTY layout,
+    /// but KeyCode `47` on a Dvorak layout. If the selected keyboard key codes
+    /// change later, the registered hot key may no longer point to the intended
+    /// physical key unless it is registered again.
+    public let autoReRegisterOnKeyboardKeyCodesChange: Bool
 
     var hotKeyId: UInt32?
     var hotKeyRef: EventHotKeyRef?
+    var registeredKeyCode: CGKeyCode?
 
     // MARK: - Enum Value
     public enum ActionQueue {
@@ -42,26 +53,40 @@ open class HotKey: NSObject {
     }
 
     // MARK: - Initialize
-    public init(identifier: String, keyCombo: KeyCombo, target: AnyObject, action: Selector, actionQueue: ActionQueue = .main) {
+    public init(
+        identifier: String,
+        keyCombo: KeyCombo,
+        target: AnyObject,
+        action: Selector,
+        actionQueue: ActionQueue = .main,
+        autoReRegisterOnKeyboardKeyCodesChange: Bool = false
+    ) {
         self.identifier = identifier
         self.keyCombo = keyCombo
         self.callback = nil
         self.target = target
         self.action = action
         self.actionQueue = actionQueue
+        self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
         super.init()
     }
 
-    public init(identifier: String, keyCombo: KeyCombo, actionQueue: ActionQueue = .main, handler: @escaping ((HotKey) -> Void)) {
+    public init(
+        identifier: String,
+        keyCombo: KeyCombo,
+        actionQueue: ActionQueue = .main,
+        autoReRegisterOnKeyboardKeyCodesChange: Bool = false,
+        handler: @escaping ((HotKey) -> Void)
+    ) {
         self.identifier = identifier
         self.keyCombo = keyCombo
         self.callback = handler
         self.target = nil
         self.action = nil
         self.actionQueue = actionQueue
+        self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
         super.init()
     }
-
 }
 
 // MARK: - Invoke
@@ -102,6 +127,7 @@ extension HotKey {
 
         return self.identifier == hotKey.identifier &&
                self.keyCombo == hotKey.keyCombo &&
+               self.autoReRegisterOnKeyboardKeyCodesChange == hotKey.autoReRegisterOnKeyboardKeyCodesChange &&
                self.hotKeyId == hotKey.hotKeyId &&
                self.hotKeyRef == hotKey.hotKeyRef
     }

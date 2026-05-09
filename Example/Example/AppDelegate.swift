@@ -23,7 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let hotKey = HotKey(identifier: "CommandControlB",
                             keyCombo: keyCombo,
                             target: self,
-                            action: #selector(AppDelegate.tappedHotKey))
+                            action: #selector(AppDelegate.tappedHotKey),
+                            autoReRegisterOnKeyboardKeyCodesChange: true)
         hotKey.register()
 
         // Shift + Control + A
