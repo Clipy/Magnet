@@ -30,6 +30,16 @@ open class HotKey: NSObject {
     /// change later, the registered hot key may no longer point to the intended
     /// physical key unless it is registered again.
     public let autoReRegisterOnKeyboardKeyCodesChange: Bool
+    /// When enabled, Magnet unregisters this hot key while an NSMenu is tracking
+    /// events and restores it after menu tracking ends.
+    ///
+    /// This prevents Carbon hot key events from being delivered after the menu
+    /// closes when they were pressed while AppKit's menu tracking run loop was
+    /// active.
+    ///
+    /// Hot keys whose KeyCombo uses doubled modifiers always behave as if this
+    /// option is enabled.
+    public let pausesWhenMenuIsTracking: Bool
 
     var hotKeyId: UInt32?
     var hotKeyRef: EventHotKeyRef?
@@ -59,7 +69,8 @@ open class HotKey: NSObject {
         target: AnyObject,
         action: Selector,
         actionQueue: ActionQueue = .main,
-        autoReRegisterOnKeyboardKeyCodesChange: Bool = false
+        autoReRegisterOnKeyboardKeyCodesChange: Bool = false,
+        pausesWhenMenuIsTracking: Bool = false
     ) {
         self.identifier = identifier
         self.keyCombo = keyCombo
@@ -68,6 +79,7 @@ open class HotKey: NSObject {
         self.action = action
         self.actionQueue = actionQueue
         self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
+        self.pausesWhenMenuIsTracking = pausesWhenMenuIsTracking
         super.init()
     }
 
@@ -76,6 +88,7 @@ open class HotKey: NSObject {
         keyCombo: KeyCombo,
         actionQueue: ActionQueue = .main,
         autoReRegisterOnKeyboardKeyCodesChange: Bool = false,
+        pausesWhenMenuIsTracking: Bool = false,
         handler: @escaping ((HotKey) -> Void)
     ) {
         self.identifier = identifier
@@ -85,6 +98,7 @@ open class HotKey: NSObject {
         self.action = nil
         self.actionQueue = actionQueue
         self.autoReRegisterOnKeyboardKeyCodesChange = autoReRegisterOnKeyboardKeyCodesChange
+        self.pausesWhenMenuIsTracking = pausesWhenMenuIsTracking
         super.init()
     }
 }
@@ -128,6 +142,7 @@ extension HotKey {
         return self.identifier == hotKey.identifier &&
                self.keyCombo == hotKey.keyCombo &&
                self.autoReRegisterOnKeyboardKeyCodesChange == hotKey.autoReRegisterOnKeyboardKeyCodesChange &&
+               self.pausesWhenMenuIsTracking == hotKey.pausesWhenMenuIsTracking &&
                self.hotKeyId == hotKey.hotKeyId &&
                self.hotKeyRef == hotKey.hotKeyRef
     }
