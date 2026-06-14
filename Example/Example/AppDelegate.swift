@@ -24,7 +24,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             keyCombo: keyCombo,
                             target: self,
                             action: #selector(AppDelegate.tappedHotKey),
-                            autoReRegisterOnKeyboardKeyCodesChange: true)
+                            autoReRegisterOnKeyboardKeyCodesChange: true,
+                            pausesWhenMenuIsTracking: true)
         hotKey.register()
 
         // Shift + Control + A
@@ -68,6 +69,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc func tappedHotKey() {
         print("hotKey!!!!")
+        let menu = NSMenu()
+        menu.addItem(NSMenuItem(title: "Menu", action: nil, keyEquivalent: ""))
+        menu.addItem(.separator())
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
     }
 
     @objc func tappedHotKey2() {

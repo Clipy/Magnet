@@ -18,6 +18,7 @@ open class HotKeyCenter {
 
     private var hotKeys = [String: HotKey]()
     private var hotKeyCount: UInt32 = 0
+    private var isMenuTracking = false
     private let modifierEventHandler: ModifierEventHandler
     private let notificationCenter: NotificationCenter
 
@@ -29,6 +30,7 @@ open class HotKeyCenter {
         installModifiersChangedEventHandlerIfNeeded()
         observeKeyboardKeyCodesChanges()
         observeApplicationTerminate()
+        observeMenuTracking()
     }
 
     deinit {
@@ -45,6 +47,7 @@ extension HotKeyCenter {
 
         hotKeys[hotKey.identifier] = hotKey
         guard !hotKey.keyCombo.doubledModifiers else { return true }
+        guard !(isMenuTracking && hotKey.pausesWhenMenuIsTracking) else { return true }
         guard registerEvent(with: hotKey) else {
             unregister(with: hotKey)
             return false
@@ -57,7 +60,7 @@ extension HotKeyCenter {
     private func registerEvent(with hotKey: HotKey) -> Bool {
         let hotKeyId = EventHotKeyID(signature: UTGetOSTypeFromString("Magnet" as CFString), id: hotKeyCount)
         var carbonHotKey: EventHotKeyRef?
-        let currentKeyCode = hotKey.keyCombo.currentKeyCode
+        let currentKeyCode = hotKey.registeredKeyCode ?? hotKey.keyCombo.currentKeyCode
         let error = RegisterEventHotKey(UInt32(currentKeyCode),
                                         UInt32(hotKey.keyCombo.modifiers),
                                         hotKeyId,
@@ -92,13 +95,15 @@ extension HotKeyCenter {
         hotKeys.forEach { unregister(with: $1) }
     }
 
-    private func unregisterEvent(with hotKey: HotKey) {
+    private func unregisterEvent(with hotKey: HotKey, clearKeyCode: Bool = true) {
         if let carbonHotKey = hotKey.hotKeyRef {
             UnregisterEventHotKey(carbonHotKey)
         }
         hotKey.hotKeyId = nil
         hotKey.hotKeyRef = nil
-        hotKey.registeredKeyCode = nil
+        if clearKeyCode {
+            hotKey.registeredKeyCode = nil
+        }
     }
 }
 
@@ -118,6 +123,17 @@ extension HotKeyCenter {
                                        object: nil)
     }
 
+    private func observeMenuTracking() {
+        notificationCenter.addObserver(self,
+                                       selector: #selector(HotKeyCenter.menuDidBeginTracking),
+                                       name: NSMenu.didBeginTrackingNotification,
+                                       object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(HotKeyCenter.menuDidEndTracking),
+                                       name: NSMenu.didEndTrackingNotification,
+                                       object: nil)
+    }
+
     @objc func applicationWillTerminate() {
         unregisterAll()
     }
@@ -130,8 +146,37 @@ extension HotKeyCenter {
                 let currentKeyCode = hotKey.keyCombo.currentKeyCode
                 guard hotKey.registeredKeyCode != currentKeyCode else { return }
                 unregisterEvent(with: hotKey)
+                guard !(isMenuTracking && hotKey.pausesWhenMenuIsTracking) else { return }
                 registerEvent(with: hotKey)
             }
+    }
+
+    @objc func menuDidBeginTracking() {
+        isMenuTracking = true
+        pauseHotKeysForMenuTracking()
+    }
+
+    @objc func menuDidEndTracking() {
+        isMenuTracking = false
+        resumeHotKeysPausedForMenuTracking()
+    }
+
+    private func pauseHotKeysForMenuTracking() {
+        hotKeys.values
+            .filter { $0.pausesWhenMenuIsTracking }
+            .filter { !$0.keyCombo.doubledModifiers }
+            .filter { $0.hotKeyRef != nil }
+            .forEach { hotKey in
+                unregisterEvent(with: hotKey, clearKeyCode: false)
+            }
+    }
+
+    private func resumeHotKeysPausedForMenuTracking() {
+        hotKeys.values
+            .filter { $0.pausesWhenMenuIsTracking }
+            .filter { !$0.keyCombo.doubledModifiers }
+            .filter { $0.hotKeyRef == nil }
+            .forEach { registerEvent(with: $0) }
     }
 }
 
