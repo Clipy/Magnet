@@ -3,40 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C5A022332FE4D1A1003D5BD6 /* Magnet in Frameworks */ = {isa = PBXBuildFile; productRef = C5A022322FE4D1A1003D5BD6 /* Magnet */; };
 		FAEC34831C8F2299004177E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC34821C8F2299004177E2 /* AppDelegate.swift */; };
 		FAEC34851C8F2299004177E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC34841C8F2299004177E2 /* Assets.xcassets */; };
 		FAEC34881C8F2299004177E2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAEC34861C8F2299004177E2 /* MainMenu.xib */; };
-		FAEC34D31C905A1E004177E2 /* Magnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAEC34D01C905A17004177E2 /* Magnet.framework */; };
-		FAEC34D41C905A1E004177E2 /* Magnet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAEC34D01C905A17004177E2 /* Magnet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		FAEC34CF1C905A17004177E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FAEC34AF1C9059DF004177E2;
-			remoteInfo = Magnet;
-		};
-		FAEC34D11C905A17004177E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FAEC34B91C9059DF004177E2;
-			remoteInfo = MagnetTests;
-		};
-		FAEC34D51C905A1E004177E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = FAEC34AE1C9059DF004177E2;
-			remoteInfo = Magnet;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		FAEC349C1C8F22C5004177E2 /* Embed Frameworks */ = {
@@ -45,7 +20,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FAEC34D41C905A1E004177E2 /* Magnet.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +33,6 @@
 		FAEC34841C8F2299004177E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAEC34871C8F2299004177E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		FAEC34891C8F2299004177E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Magnet.xcodeproj; path = ../Lib/Magnet.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAEC34D31C905A1E004177E2 /* Magnet.framework in Frameworks */,
+				C5A022332FE4D1A1003D5BD6 /* Magnet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +52,6 @@
 			children = (
 				FAEC34811C8F2299004177E2 /* Example */,
 				FAEC34801C8F2299004177E2 /* Products */,
-				FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,15 +75,6 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		FAEC34CB1C905A17004177E2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FAEC34D01C905A17004177E2 /* Magnet.framework */,
-				FAEC34D21C905A17004177E2 /* MagnetTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -127,7 +90,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				FAEC34D61C905A1E004177E2 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -164,37 +126,17 @@
 				Base,
 			);
 			mainGroup = FAEC34761C8F2299004177E2;
+			packageReferences = (
+				C5A022312FE4D1A1003D5BD6 /* XCLocalSwiftPackageReference ".." */,
+			);
 			productRefGroup = FAEC34801C8F2299004177E2 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = FAEC34CB1C905A17004177E2 /* Products */;
-					ProjectRef = FAEC34CA1C905A17004177E2 /* Magnet.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				FAEC347E1C8F2299004177E2 /* Example */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		FAEC34D01C905A17004177E2 /* Magnet.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Magnet.framework;
-			remoteRef = FAEC34CF1C905A17004177E2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FAEC34D21C905A17004177E2 /* MagnetTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MagnetTests.xctest;
-			remoteRef = FAEC34D11C905A17004177E2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FAEC347D1C8F2299004177E2 /* Resources */ = {
@@ -218,14 +160,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		FAEC34D61C905A1E004177E2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Magnet;
-			targetProxy = FAEC34D51C905A1E004177E2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FAEC34861C8F2299004177E2 /* MainMenu.xib */ = {
@@ -339,7 +273,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -352,7 +287,10 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Example.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clipy-app.Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -371,7 +309,10 @@
 				CODE_SIGN_ENTITLEMENTS = Example/Example.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clipy-app.Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -403,6 +344,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C5A022312FE4D1A1003D5BD6 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C5A022322FE4D1A1003D5BD6 /* Magnet */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Magnet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAEC34771C8F2299004177E2 /* Project object */;
 }

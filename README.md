@@ -1,5 +1,5 @@
 # Magnet
-![CI](https://github.com/Clipy/Magnet/workflows/Xcode-Build/badge.svg)
+![CI](https://github.com/Clipy/Magnet/workflows/Swift-Build/badge.svg)
 [![Release version](https://img.shields.io/github/release/Clipy/Magnet.svg)](https://github.com/Clipy/Magnet/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/Clipy/Magnet.svg)](https://github.com/Clipy/Magnet/blob/master/LICENSE)
 
@@ -79,10 +79,3 @@ hotKey.unregister() // or HotKeyCenter.shared.unregister(with: hotKey)
 
 ## Dependencies
 - [Sauce](https://github.com/Clipy/Sauce)
-
-## How to Build
-1. Move to the project root directory
-2. Install dependency library with `carthage` or `git submodule`
-3. `carthage checkout --use-submodules` or `git submodule update --init --recursive`
-4. Open `Magnet.xcworkspace` on Xcode.
-5. build.

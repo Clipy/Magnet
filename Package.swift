@@ -17,15 +17,11 @@ let package = Package(
     targets: [
         .target(
             name: "Magnet",
-            dependencies: ["Sauce"],
-            path: "Lib/Magnet",
-            exclude: ["Info.plist"]
+            dependencies: ["Sauce"]
         ),
         .testTarget(
             name: "MagnetTests",
-            dependencies: ["Magnet"],
-            path: "Lib/MagnetTests",
-            exclude: ["Info.plist"]
+            dependencies: ["Magnet"]
         ),
     ],
     swiftLanguageVersions: [.v5]
